@@ -81,7 +81,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
 <body>
   {% block body %}
-<form method="POST" action="/instructor.html">
+<form method="POST" action="/instructor">
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
     <div class="container">
@@ -228,7 +228,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- Tabs -->
             <ul class="nav nav-tabs">
               <li class="active"><a href="/instructor"><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
-              <li><a href="/add-marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li>
+              <li><a href="/add_marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li>
               <!-- <li><a href="website-instructor-course-edit-lessons.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Lessons</span></a></li> -->
             </ul>
             <!-- // END Tabs -->
@@ -239,16 +239,17 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
               <div id="course" class="tab-pane active">
                 <form action="">
                   <div class="form-group form-control-material">
-                    <input type="text" name="title" id="title" placeholder="Course Title" class="form-control used" value="Basics of HTML" />
-                    <label for="title">Title</label>
+                    <input type="text" name="question" id="title" placeholder="Course Title" class="form-control used" value="{{ ques }} " />
+                    <label for="title">Question</label>
                   </div>
                   <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="10" class="summernote">{{answer}} </textarea>
+                    <label for="description">Solution</label>
+                    <textarea name="solution" id="description" cols="30" rows="10" class="summernote">{{answer}} </textarea>
                   </div>
                 </form>
                 <div class="text-right">
-                  <a href="#" class="btn btn-primary">Save</a>
+                  <button class="btn btn-success" type="submit" value="save" name="button" ><i class="fa fa-save fa-fw"></i> Save </button>
+                  <button class="btn btn-primary" name="button" value="next"><i class="fa fa-chevron-right fa-fw"></i> New Question</button>
                 </div>
               </div>
 
@@ -266,7 +267,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
           <div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
             <div class="panel-heading panel-collapse-trigger">
-              <h4 class="panel-title">My Account</h4>
+              <h4 class="panel-title">My Account &emsp14;&emsp14;&emsp14;&emsp14;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <i class="far fa-caret-square-down"></i></h4>
             </div>
             <div class="panel-body list-group">
               <ul class="list-group list-group-menu">
@@ -292,12 +293,12 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                         <span class="img icon-block s90 bg-default"></span>
                         <span class="overlay overlay-full padding-none icon-block s90 bg-default">
                         <span class="v-center">
-                            <i class="fa fa-github"></i>
+                          <i class="fas fa-chalkboard-teacher"></i>
                         </span>
                         </span>
                         <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
                           <span class="v-center">
-                            <span class="btn btn-circle btn-white btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                            <span class="btn btn-circle btn-white btn-lg"><i class="fas fa-chalkboard-teacher"></i></span>
                           </span>
                         </a>
                       </div>
@@ -308,8 +309,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
                       </p>
                     </div>
                   </div>
@@ -325,7 +326,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                         <span class="img icon-block s90 bg-primary"></span>
                         <span class="overlay overlay-full padding-none icon-block s90 bg-primary">
                         <span class="v-center">
-                            <i class="fa fa-css3"></i>
+                          <i class="fa fa-graduation-cap"></i>
                         </span>
                         </span>
                         <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
@@ -341,8 +342,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="far fa-star text-yellow-800"></span>
                       </p>
                     </div>
                   </div>
@@ -358,7 +359,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                         <span class="img icon-block s90 bg-lightred"></span>
                         <span class="overlay overlay-full padding-none icon-block s90 bg-lightred">
                         <span class="v-center">
-                            <i class="fa fa-windows"></i>
+                          <i class="fa fa-graduation-cap"></i>
                         </span>
                         </span>
                         <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
@@ -374,8 +375,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                        <span class="far fa-star text-yellow-800"></span>
+                        <span class="far fa-star text-yellow-800"></span>
                       </p>
                     </div>
                   </div>
