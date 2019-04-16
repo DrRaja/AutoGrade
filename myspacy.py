@@ -71,11 +71,22 @@ def main():
 @app.route('/',methods=["GET","POST"])
 def newmain():
     ans=request.form["answer"]
+    Save=request.form["save"]
+    # Next=request.form["next"]
+    print(Save)
     return render_template('instructor.html',answer=ans)
 
 @app.route('/instructor')
 def func():
     return render_template('instructor.html')
+
+@app.route('/instructor',methods=["GET","POST"])
+def funct():
+    return render_template('add-marks.html')
+
+@app.route('/add-marks')
+def add_marks():
+    return render_template('add-marks.html')
 
 # @app.route('/html/website-instructor-course-edit-course',methods=["GET","POST"])
 # def student():

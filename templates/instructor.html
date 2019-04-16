@@ -13,6 +13,7 @@
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
     TIP: Using bundles will improve performance by reducing the number of network requests the client needs to make when loading the page. -->
   <link href=" {{url_for('static', filename='all.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
   <!-- Vendor CSS Standalone Libraries
         NOTE: Some of these may have been customized (for example, Bootstrap).
@@ -175,7 +176,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /> Bill<span class="caret"></span>
+                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /> Instructor<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="website-student-dashboard.html"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
@@ -193,6 +194,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
     </div>
   </div>
+  
 
   <div class="parallax overflow-hidden bg-blue-400 page-section third">
     <div class="container parallax-layer" data-opacity="true">
@@ -203,7 +205,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
           </a>
         </div>
         <div class="media-body">
-          <h1 class="text-white text-display-1 margin-v-0">John Doe</h1>
+          <h1 class="text-white text-display-1 margin-v-0">Instructor</h1>
           <!-- <p class="text-subhead"><a class="link-white text-underline" href="website-instructor-public-profile.html">View public profile</a></p> -->
         </div>
         <div class="media-right">
@@ -225,8 +227,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
             <!-- Tabs -->
             <ul class="nav nav-tabs">
-              <li class="active"><a href="html/website-instructor-course-edit-course.html"><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
-              <li><a href="html/website-instructor-course-edit-meta.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Meta</span></a></li>
+              <li class="active"><a href="/instructor"><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
+              <li><a href="/add-marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li>
               <!-- <li><a href="website-instructor-course-edit-lessons.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Lessons</span></a></li> -->
             </ul>
             <!-- // END Tabs -->
@@ -301,7 +303,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Dr. Raja Muhammad Suleman</a></h4>
+                      <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Instructor</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>

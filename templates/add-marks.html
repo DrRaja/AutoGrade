@@ -12,7 +12,8 @@
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
     TIP: Using bundles will improve performance by reducing the number of network requests the client needs to make when loading the page. -->
-  <link href=" {{url_for('static', filename='all.css')}}" rel="stylesheet">
+  <link href="{{url_for('static',filename='all.css')}} " rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
   <!-- Vendor CSS Standalone Libraries
         NOTE: Some of these may have been customized (for example, Bootstrap).
@@ -43,7 +44,6 @@ NOTE:
 TIP:
     - Using bundles will improve performance by greatly reducing the number of network requests the client needs to make when loading the page. -->
   <link href="{{url_for('static',filename='app.css')}} " rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
   <!-- App CSS CORE
 This variant is to be used when loading the separate styling modules -->
@@ -80,8 +80,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 </head>
 
 <body>
-  {% block body %}
-<form method="POST" action="/">
+{% block body %}
+<form method="POST" action="/add-marks.html">
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
     <div class="container">
@@ -158,8 +158,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
               <li><a href="website-blog-post.html">Blog Post</a></li>
               <li><a href="website-contact.html">Contact</a></li>
             </ul>
-          </li> -->
-          <!-- <li class="dropdown">
+          </li>
+          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Courses <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="website-directory-grid.html">Grid Directory</a></li>
@@ -167,28 +167,28 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
               <li><a href="website-course.html">Single Course</a></li>
             </ul>
           </li> -->
-          <li class="dropdown active">
+          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Student <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="website-student-dashboard.html">Dashboard</a></li>
               <!-- <li><a href="website-student-courses.html">My Courses</a></li> -->
               <!-- <li><a href="website-take-course.html">Take Course</a></li> -->
               <!-- <li><a href="website-course-forums.html">Course Forums</a></li> -->
-              <li class="active"><a href="website-take-quiz.html">Take Exam</a></li>
-              <li><a href="website-student-messages.html">Messages</a></li>
-              <li><a href="website-student-profile.html">Profile</a></li>
+              <li><a href="website-take-quiz.html">Take Exam</a></li>
+              <!-- <li><a href="website-student-messages.html">Messages</a></li> -->
+              <li><a href="website-student-profile.html"> Profile</a></li>
             </ul>
           </li>
-          <li class="dropdown">
+          <li class="dropdown active">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instructor <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="website-instructor-dashboard.html">Dashboard</a></li>
-              <li><a href="website-instructor-courses.html">My Courses</a></li>
-              <li><a href="website-instructor-course-edit-course.html">Edit Course</a></li>
-              <li><a href="website-instructor-earnings.html">Earnings</a></li>
-              <li><a href="website-instructor-statement.html">Statement</a></li>
-              <li><a href="website-instructor-messages.html">Messages</a></li>
-              <li><a href="website-instructor-profile.html">Private Profile</a></li>
+              <!-- <li><a href="website-instructor-courses.html">My Courses</a></li> -->
+              <li class="active"><a href="website-instructor-course-edit-course.html">Add Exam</a></li>
+              <!-- <li><a href="website-instructor-earnings.html">Earnings</a></li> -->
+              <!-- <li><a href="website-instructor-statement.html">Statement</a></li> -->
+              <!-- <li><a href="website-instructor-messages.html">Messages</a></li> -->
+              <li><a href="website-instructor-profile.html">Profile</a></li>
             </ul>
           </li>
           <!-- <li class="dropdown">
@@ -209,11 +209,11 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{url_for('static',filename='rabia.jpg')}} " alt="" class="img-circle" />Student<span class="caret"></span>
+                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /> Instructor<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="website-student-dashboard.html"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
-                <li><a href="website-student-courses.html"><i class="fa fa-mortar-board"></i> My Courses</a></li>
+                <!-- <li><a href="website-student-courses.html"><i class="fa fa-mortar-board"></i> My Courses</a></li> -->
                 <li><a href="website-student-profile.html"><i class="fa fa-user"></i> Profile</a></li>
                 <li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
               </ul>
@@ -228,30 +228,20 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
     </div>
   </div>
 
-  <div class="page-section half bg-white">
-    <div class="container">
-      <div class="section-toolbar">
-        <div class="cell">
-          <div class="media width-120 v-middle margin-none">
-            <div class="media-left">
-              <div class="icon-block bg-grey-200 s30"><i class="fa fa-question"></i></div>
-            </div>
-            <div class="media-body">
-              <p class="text-body-2 text-light margin-none">Questions</p>
-              <p class="text-title text-primary margin-none">1</p>
-            </div>
-          </div>
+  <div class="parallax overflow-hidden bg-blue-400 page-section third">
+    <div class="container parallax-layer" data-opacity="true">
+      <div class="media v-middle">
+        <div class="media-left text-center">
+          <a href="#">
+            <img src="{{url_for('static',filename='guy6.jpg')}} " alt="people" class="img-circle width-80" />
+          </a>
         </div>
-        <div class="cell">
-          <div class="media width-120 v-middle margin-none">
-            <div class="media-left">
-              <div class="icon-block bg-grey-200 s30"><i class="fas fa-gem"></i></div>
-            </div>
-            <div class="media-body">
-              <p class="text-body-2 text-light margin-none">Score</p>
-              <p class="text-title text-success margin-none">0 pt</p>
-            </div>
-          </div>
+        <div class="media-body">
+          <h1 class="text-white text-display-1 margin-v-0">Instructor</h1>
+          <p class="text-subhead"><a class="link-white text-underline" href="website-instructor-public-profile.html">The instructor of the course</a></p>
+        </div>
+        <div class="media-right">
+          <span class="label bg-blue-500">Instructor</span>
         </div>
       </div>
     </div>
@@ -264,41 +254,50 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
         <div class="col-md-9">
 
-          <div class="text-subhead-2 text-light">Your Question</div>
-          <div class="panel panel-default paper-shadow" data-z="0.5">
-            <div class="panel-heading">
-              <h4 class="text-headline">Question 1</h4>
-            </div>
-            <div class="panel-body">
-              <p class="text-body-2" name="question">{{ ques }} </p>
-            </div>
-          </div>
+          <!-- Tabbable Widget -->
+          <div class="tabbable paper-shadow relative" data-z="0.5">
 
-          <div class="text-subhead-2 text-light" >Your Answer</div>
-          <div class="panel panel-default paper-shadow" data-z="0.5">
-              <textarea name="answer" id="answer" cols="30" rows="10" class="summernote" ></textarea>
-            <!-- <div class="panel-body">
-              <div class="checkbox checkbox-primary">
-                <input id="checkbox1" type="checkbox">
-                <label for="checkbox1">Aspernatur corporis deserunt dolorum eos nulla</label>
+            <!-- Tabs -->
+            <ul class="nav nav-tabs">
+              <li><a href="/instructor"><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
+              <li class="active"><a href="/add-marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Meta</span></a></li>
+              <!-- <li><a href="website-instructor-course-edit-lessons.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Lessons</span></a></li> -->
+            </ul>
+            <!-- // END Tabs -->
+
+            <!-- Panes -->
+            <div class="tab-content">
+
+              <div id="meta" class="tab-pane active">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="select" class="col-sm-3 control-label" style="margin-left:10%">Total Marks</label>
+                    <input name= "marks" type="number" style="border: none; border-bottom: 2px solid rgb(89, 89, 216)" placeholder="Marks" value="10"> 
+                                    
+                  </div>
+                  <div class="form-group">
+                      <label for="select" class="col-sm-3 control-label" style="margin-left:10%">Expert Answer</label>
+                      <input name="expertmarks" type="number" style="border: none; border-bottom: 2px solid rgb(89, 89, 216); width:9%"  > %
+                                      
+                    </div>
+                    <div class="form-group">
+                        <label for="select" class="col-sm-3 control-label" style="margin-left:10%">Intermediate Answer</label>
+                        <input name="averagemarks" type="number" style="border: none; border-bottom: 2px solid rgb(89, 89, 216);width:9% " > %
+                                        
+                      </div>
+                      <div class="form-group">
+                          <label for="select" class="col-sm-3 control-label" style="margin-left:10%">Novice Answer</label>
+                          <input name="novicemarks" type="number" style="border: none; border-bottom: 2px solid rgb(89, 89, 216); width:9%"  > %
+                                          
+                        </div>
+                </form>
               </div>
-              <div class="checkbox checkbox-primary">
-                <input id="checkbox2" type="checkbox" checked>
-                <label for="checkbox2">Accusantium aperiam aut cumque deleniti dolores</label>
-              </div>
-              <div class="checkbox checkbox-primary">
-                <input id="checkbox5" type="checkbox">
-                <label for="checkbox5">Culpa doloribus enim explicabo ipsa iste porro</label>
-              </div>
-            </div> -->
-            <div class="panel-footer">
-              <div class="text-right">
-                <button class="btn btn-success" type="submit" value="save" name="save" ><i class="fa fa-save fa-fw"></i> Save Answer</button>
-                <button class="btn btn-primary" name="save" value="next"><i class="fa fa-chevron-right fa-fw"></i> Next Question</button>
-                
-              </div>
+
             </div>
+            <!-- // END Panes -->
+
           </div>
+          <!-- // END Tabbable Widget -->
 
           <br/>
           <br/>
@@ -306,115 +305,127 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
         </div>
         <div class="col-md-3">
 
-          <div class="s-container">
-            <div class="text-subhead-2 text-light">Time to complete</div>
-            <div class="tk-countdown"></div>
-          </div>
-
-          <div class="panel panel-default margin-none">
-            <div class="panel-heading">
-              <h4 class="panel-title">Questions</h4>
+          <div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
+            <div class="panel-heading panel-collapse-trigger">
+              <h4 class="panel-title">My Account</h4>
             </div>
             <div class="panel-body list-group">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-green-400 text-white">1</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color"> {{ ques }} </a>
-                    </div>
-                  </div>
-                </li>
-                <!-- <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-blue-400 text-white">2</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Lorem ipsum dolor sit amet, consectetur adipisicing.</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">3</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">A aliquam dolore et explicabo possimus vitae?</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">4</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Optio perspiciatis quasi reprehenderit voluptas?</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">5</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Cum dignissimos dolores et illum magni minus?</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">6</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Cum dignissimos dolores et illum magni minus?</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">7</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Cum dignissimos dolores et illum magni minus?</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">8</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Cum dignissimos dolores et illum magni minus?</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media v-middle">
-                    <div class="media-left">
-                      <div class="icon-block s30 bg-grey-400 text-white">9</div>
-                    </div>
-                    <div class="media-body">
-                      <a href="#" class="link-text-color">Cum dignissimos dolores et illum magni minus?</a>
-                    </div>
-                  </div>
-                </li> -->
+              <ul class="list-group list-group-menu">
+                <li class="list-group-item"><a class="link-text-color" href="website-instructor-dashboard.html">Dashboard</a></li>
+                <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-courses.html">My Courses</a></li> -->
+                <li class="list-group-item"><a class="link-text-color" href="website-instructor-messages.html">Messages</a></li>
+                <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-earnings.html">Earnings</a></li> -->
+                <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-statement.html">Statement</a></li> -->
+                <li class="list-group-item"><a class="link-text-color" href="website-instructor-profile.html">Profile</a></li>
+                <li class="list-group-item"><a class="link-text-color" href="login.html"><span>Logout</span></a></li>
               </ul>
             </div>
-            <div class="panel-footer">
-              <h4 class="text-subhead margin-v-0-5">Legend</h4>
-              <span class="fa fa-fw fa-circle text-green-400"></span> Answered question
-              <br/>
-              <span class="fa fa-fw fa-circle text-blue-400"></span> Selected question
+          </div>
+
+          <h4>Featured</h4>
+          <div class="slick-basic slick-slider" data-items="1" data-items-lg="1" data-items-md="1" data-items-sm="1" data-items-xs="1">
+            <div class="item">
+              <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated>
+                <div class="panel-body">
+                  <div class="media media-clearfix-xs">
+                    <div class="media-left">
+                      <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
+                        <span class="img icon-block s90 bg-default"></span>
+                        <span class="overlay overlay-full padding-none icon-block s90 bg-default">
+                        <span class="v-center">
+                            <i class="fa fa-github"></i>
+                        </span>
+                        </span>
+                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                          <span class="v-center">
+                            <span class="btn btn-circle btn-white btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="media-body">
+                      <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Instructor</a></h4>
+                      <p class="small margin-none">
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="item">
+              <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated>
+                <div class="panel-body">
+                  <div class="media media-clearfix-xs">
+                    <div class="media-left">
+                      <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
+                        <span class="img icon-block s90 bg-primary"></span>
+                        <span class="overlay overlay-full padding-none icon-block s90 bg-primary">
+                        <span class="v-center">
+                            <i class="fa fa-css3"></i>
+                        </span>
+                        </span>
+                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                          <span class="v-center">
+                            <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="media-body">
+                      <img src="{{url_for('static',filename='rabia.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Syeda Rabia Arshad</a></h4>
+                      <p class="small margin-none">
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated>
+                <div class="panel-body">
+                  <div class="media media-clearfix-xs">
+                    <div class="media-left">
+                      <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
+                        <span class="img icon-block s90 bg-lightred"></span>
+                        <span class="overlay overlay-full padding-none icon-block s90 bg-lightred">
+                        <span class="v-center">
+                            <i class="fa fa-windows"></i>
+                        </span>
+                        </span>
+                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                          <span class="v-center">
+                            <span class="btn btn-circle btn-red-500 btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="media-body">
+                      <img src="{{url_for('static',filename='izza.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Syyeda Izza Naqvi</a></h4>
+                      <p class="small margin-none">
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+            
           </div>
 
         </div>
@@ -429,7 +440,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
     <strong>Learning</strong> v1.1.0 &copy; Copyright 2015
   </footer>
   <!-- // Footer -->
-  {% endblock %}
+{% endblock %}
   <!-- Inline Script for colors and config objects; used by various external scripts; -->
   <script>
     var colors = {
@@ -513,9 +524,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
         app.js already includes main.js so this should be loaded
         ONLY when using the standalone modules; -->
   <!-- <script src="js/app/main.js"></script> -->
-  
 </form>
-
 </body>
 
 </html>
