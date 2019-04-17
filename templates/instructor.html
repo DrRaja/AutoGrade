@@ -228,7 +228,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- Tabs -->
             <ul class="nav nav-tabs">
               <li class="active"><a href="/instructor"><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
-              <li><a href="/add_marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li>
+              <!-- <li><a href="/add_marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li> -->
               <!-- <li><a href="website-instructor-course-edit-lessons.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Lessons</span></a></li> -->
             </ul>
             <!-- // END Tabs -->
@@ -239,12 +239,22 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
               <div id="course" class="tab-pane active">
                 <form action="">
                   <div class="form-group form-control-material">
-                    <input type="text" name="question" id="title" placeholder="Course Title" class="form-control used" value="{{ ques }} " />
-                    <label for="title">Question</label>
+                    <input type="text" name="question" id="title" placeholder="Course Title" class="form-control used" value="{{ title }} " />
+                    <label for="title" style="font-size: 17px">Exam Title</label>
                   </div>
                   <div class="form-group">
-                    <label for="description">Solution</label>
-                    <textarea name="solution" id="description" cols="30" rows="10" class="summernote">{{answer}} </textarea>
+                    <label for="description" style="font-size: 18px">Question</label>
+                    <input type="text" style="border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 100%; padding: 12px 20px;"/>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description" style="font-size: 18px">Solution</label>
+                    <textarea name="solution" id="description" cols="30" rows="10" class="summernote">{{answer}} </textarea><br>
+                    <label for="description" style="font-size: 18px">Total Marks</label>
+                    <input type="number" style="border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 20%; padding: 8px 10px;"/>
+                    <br><label for="description" style="font-size: 18px">Excellent Answer</label><br>
+                    <label for="description" style="font-size: 18px">Average Answer</label><br>
+                    <label for="description" style="font-size: 18px">Novice Answer</label>
                   </div>
                 </form>
                 <div class="text-right">
