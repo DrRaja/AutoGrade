@@ -15,6 +15,25 @@ Question=""
 Solution="Bahria University is student"
 Answer="I student Bahria University"
 
+ExamDoc=[]
+Title=""
+
+class Exam:
+    Question=""
+    Solution=""
+    Total_Marks=""
+    count=0
+
+    def __init__(self,question,solution,total_marks):
+        self.Question=question
+        self.Solution=solution
+        self.Total_Marks=total_marks
+        Exam.count+=1
+
+    def print(self):
+        string=self.Question+"  "+self.Solution+"   "+self.Total_Marks+"    "
+        return string
+
 @app.route('/')
 def main():
     
@@ -72,26 +91,32 @@ def main():
 
 @app.route('/instructor')
 def instructor():
-    global Question
-    global Solution
-    return render_template('instructor.html',ques=Question,answer=Solution)
+    global Title
+    return render_template('instructor.html',titleValue=Title)
 
 @app.route('/instructor',methods=["GET","POST"])
 def instruct():
-    global Question
-    Question=request.form["question"]
-    print(Question)
-    global Solution
+    global Title
+    Title=request.form["title"]
+    Question=request.form["quest"]
     Solution=request.form["solution"]
-    print(Solution)
-    Save=request.form["button"]
-    # render_template('instructor.html',ques=Question,answer=Solution)
-    return redirect(url_for('add_mark'))
+    Total_Marks=request.form["marks"]
+    global ExamDoc
+    btnRequest=request.form["button"]
+    if btnRequest=="save":
+        ExamDoc.append(Exam(Question,Solution,Total_Marks))
+        print(len(ExamDoc))
+        print(str(ExamDoc[len(ExamDoc)-1].Question))
+        return redirect(url_for('add_mark'))
+    else:
+        ExamDoc.append(Exam(Question,Solution,Total_Marks))
+        return redirect(url_for('instructor'))
+        
 
 @app.route('/', methods=["GET","POST"])
 def newmain():
     global Question
-    Question=request.form["question"]
+    Question=request.form["quest"]
     print(Question)
     global Solution
     Solution=request.form["solution"]
@@ -102,7 +127,7 @@ def newmain():
     return redirect(url_for('add_marks'))
 
 @app.route('/quiz')
-def quizfunc():
+def quiz():
     global Question
     return render_template('quiz.html',ques=Question)
 

@@ -76241,7 +76241,9 @@ charts or filled areas).
 						<code>format</code>) and <code>this</code> is the containing division.
 			@example onTick: function(periods) {
  	var secs = $.countdown.periodsToSeconds(periods);
- 	if (secs < 300) { // Last five minutes
+	 if (secs < 300) { // Last five minutes
+		
+		
 		...
  	}
  }
@@ -76258,7 +76260,7 @@ charts or filled areas).
 			significant: 0,
 			description: '',
 			expiryUrl: '',
-			expiryText: '',
+			expiryText: '<h3>Time Up</h3>',
 			alwaysExpire: false,
 			onExpiry: null,
 			onTick: null,
