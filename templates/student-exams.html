@@ -12,8 +12,7 @@
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
     TIP: Using bundles will improve performance by reducing the number of network requests the client needs to make when loading the page. -->
-  <link href=" {{url_for('static', filename='all.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="{{url_for('static',filename='all.css')}} " rel="stylesheet">
 
   <!-- Vendor CSS Standalone Libraries
         NOTE: Some of these may have been customized (for example, Bootstrap).
@@ -44,6 +43,7 @@ NOTE:
 TIP:
     - Using bundles will improve performance by greatly reducing the number of network requests the client needs to make when loading the page. -->
   <link href="{{url_for('static',filename='app.css')}} " rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
   <!-- App CSS CORE
 This variant is to be used when loading the separate styling modules -->
@@ -80,8 +80,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 </head>
 
 <body>
-  {% block body %}
-<form method="POST" action="/instructor">
+{% block body %}
+<form method="POST" action="/student-exams">
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
     <div class="container">
@@ -144,16 +144,16 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="main-nav">
         <ul class="nav navbar-nav navbar-nav-margin-left">
-        
+          
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Student <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="website-student-dashboard.html">Dashboard</a></li>
-              <li><a href="website-student-courses.html">My Courses</a></li>
-              <li><a href="website-take-course.html">Take Course</a></li>
-              <li><a href="website-course-forums.html">Course Forums</a></li>
+              <!-- <li><a href="website-student-courses.html">My Courses</a></li> -->
+              <!-- <li><a href="website-take-course.html">Take Course</a></li> -->
+              <!-- <li><a href="website-course-forums.html">Course Forums</a></li> -->
               <li><a href="website-take-quiz.html">Take Quiz</a></li>
-              <li><a href="website-student-messages.html">Messages</a></li>
+              <!-- <li><a href="website-student-messages.html">Messages</a></li> -->
               <li><a href="website-student-profile.html">Private Profile</a></li>
             </ul>
           </li>
@@ -161,8 +161,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instructor <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="website-instructor-dashboard.html">Dashboard</a></li>
-              <li><a href="website-instructor-courses.html">My Courses</a></li>
-              <li class="active"><a href="website-instructor-course-edit-course.html">Add Exam</a></li>
+              <li class="active"><a href="website-instructor-courses.html">My Exams</a></li>
+              <li><a href="website-instructor-course-edit-course.html">Add Exam</a></li>
               <!-- <li><a href="website-instructor-earnings.html">Earnings</a></li> -->
               <!-- <li><a href="website-instructor-statement.html">Statement</a></li> -->
               <!-- <li><a href="website-instructor-messages.html">Messages</a></li> -->
@@ -176,7 +176,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /> Instructor<span class="caret"></span>
+                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" />Instructor<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="website-student-dashboard.html"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
@@ -187,14 +187,13 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </li>
             <!-- // END user -->
           </ul>
-          <a href="html/login.html" class="navbar-btn btn btn-primary">Log In</a>
+          <!-- <a href="login.html" class="navbar-btn btn btn-primary">Log In</a> -->
         </div>
       </div>
       <!-- /.navbar-collapse -->
 
     </div>
   </div>
-  
 
   <div class="parallax overflow-hidden bg-blue-400 page-section third">
     <div class="container parallax-layer" data-opacity="true">
@@ -222,53 +221,100 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
         <div class="col-md-9">
 
-          <!-- Tabbable Widget -->
-          <div class="tabbable paper-shadow relative" data-z="0.5">
+          <div class="row" data-toggle="isotope">
+            
+            
+            {% for i in listi %}
+            <div class="item col-xs-12 col-sm-6 col-lg-4">
+              <div class="panel panel-default paper-shadow" data-z="0.5">
 
-            <!-- Tabs -->
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="/instructor"><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
-              <!-- <li><a href="/add_marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li> -->
-              <!-- <li><a href="website-instructor-course-edit-lessons.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Lessons</span></a></li> -->
-            </ul>
-            <!-- // END Tabs -->
+                <div class="cover overlay cover-image-full hover">
+                  <span class="img icon-block height-150 bg-primary"></span>
+                  <a href="website-instructor-course-edit-course.html" class="padding-none overlay overlay-full icon-block bg-primary">
+                    <span class="v-center">
+                      <i class="fas fa-laptop-code"></i>
+            </span>
+                  </a>
 
-            <!-- Panes -->
-            <div class="tab-content">
+                  <a href="website-instructor-course-edit-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                    <span class="v-center">
+                <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                    </span>
+                  </a>
 
-              <div id="course" class="tab-pane active">
-                <form action="">
-                  <div class="form-group form-control-material">
-                    <input type="text"  name="title" id="title" placeholder="Course Title" class="form-control used" value="{{ titleValue }} " />
-                    <label for="title" style="font-size: 17px">Exam Title</label>
-                  </div>
-                  <div class="form-group">
-                    <label for="description" style="font-size: 18px">Question</label>
-                    <input type="text" name="quest" style="border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 100%; padding: 12px 20px;"/>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="description" style="font-size: 18px">Solution</label>
-                    <textarea name="solution" id="description" cols="30" rows="10" class="summernote"></textarea><br>
-                    <label for="description" style="font-size: 18px">Total Marks</label>
-                    <input type="number" name="marks" style="border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 20%; padding: 8px 10px;"/>
-                    <!-- <br><label for="description" style="font-size: 18px">Excellent Answer</label><br>
-                    <label for="description" style="font-size: 18px">Average Answer</label><br>
-                    <label for="description" style="font-size: 18px">Novice Answer</label> -->
-                  </div>
-                </form>
-                <div class="text-right">
-                  <button class="btn btn-primary" name="button" value="next"><i class="fa fa-chevron-right fa-fw"></i> New Question</button>
-                  <button class="btn btn-success" type="submit" value="save" name="button" ><i class="fa fa-save fa-fw"></i> Done </button>
-                  
                 </div>
-              </div>
 
+                <div class="panel-body">
+                  <h4 class="text-headline margin-v-0-10">New: {{ i }}</h4>
+
+                </div>
+                <hr class="margin-none" />
+                <div class="panel-body">
+
+                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="{{ i}} "><i class="fas fa-eye"></i> Attempt</button>
+
+                </div>
+
+              </div>
             </div>
-            <!-- // END Panes -->
+            {% endfor %}
+            <!-- <div class="item col-xs-12 col-sm-6 col-lg-4">
+              <div class="panel panel-default paper-shadow" data-z="0.5">
+
+                <div class="cover overlay cover-image-full hover">
+                  <span class="img icon-block height-150 bg-lightred"></span>
+                  <a href="website-instructor-course-edit-course.html" class="padding-none overlay overlay-full icon-block bg-lightred">
+                    <span class="v-center">
+                <i class="fa fa-windows"></i>
+            </span>
+                  </a>
+
+                  <a href="website-instructor-course-edit-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                    <span class="v-center">
+                <span class="btn btn-circle btn-red-500 btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                    </span>
+                  </a>
+
+                </div>
+
+                <div class="panel-body">
+                  <h4 class="text-headline margin-v-0-10"><a href="website-instructor-course-edit-course.html">Vagrant Portable Environments</a></h4>
+
+                </div>
+                <hr class="margin-none" />
+                <div class="panel-body">
+
+                  <a class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated href="website-instructor-course-edit-course.html"><i class="fa fa-fw fa-pencil"></i> Edit course</a>
+
+                </div>
+
+              </div>
+            </div> -->
+            <!-- for adding new quiz/document -->
+            <!-- <div class="item col-xs-12 col-sm-6 col-lg-4">
+              <div class="panel panel-default paper-shadow" data-z="0.5">
+
+                <div class="cover overlay cover-image-full hover">
+                  <span class="img icon-block height-150 bg-grey-200"></span>
+                  <a href="/instructor" class="padding-none overlay overlay-full icon-block bg-grey-200">
+                    <span class="v-center">
+                <i class="fa fa-plus text-grey-600"></i>
+            </span>
+                  </a>
+
+                </div>
+
+              </div>
+            </div> -->
 
           </div>
-          <!-- // END Tabbable Widget -->
+          <!-- <ul class="pagination margin-top-none">
+            <li class="disabled"><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">&raquo;</a></li>
+          </ul> -->
 
           <br/>
           <br/>
@@ -411,8 +457,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
     <strong>Learning</strong> v1.1.0 &copy; Copyright 2015
   </footer>
   <!-- // Footer -->
-  {% endblock %}
-
+{% endblock %}
   <!-- Inline Script for colors and config objects; used by various external scripts; -->
   <script>
     var colors = {

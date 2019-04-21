@@ -81,7 +81,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
 <body>
   {% block body %}
-<form method="POST" action="/">
+<form method="POST" action="/quiz">
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
     <div class="container">
@@ -238,7 +238,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </div>
             <div class="media-body">
               <p class="text-body-2 text-light margin-none">Questions</p>
-              <p class="text-title text-primary margin-none">1</p>
+              <p class="text-title text-primary margin-none">{{num}} </p>
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </div>
             <div class="media-body">
               <p class="text-body-2 text-light margin-none">Score</p>
-              <p class="text-title text-success margin-none">0 pt</p>
+              <p class="text-title text-success margin-none">{{marks}} pt</p>
             </div>
           </div>
         </div>
@@ -267,7 +267,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
           <div class="text-subhead-2 text-light">Your Question</div>
           <div class="panel panel-default paper-shadow" data-z="0.5">
             <div class="panel-heading">
-              <h4 class="text-headline">Question 1</h4>
+              <h4 class="text-headline">Question {{num}} </h4>
             </div>
             <div class="panel-body">
               <p class="text-body-2" name="question">{{ ques }} </p>
@@ -293,9 +293,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </div> -->
             <div class="panel-footer">
               <div class="text-right">
-                <button class="btn btn-success" type="submit" value="save" name="save" ><i class="fa fa-save fa-fw"></i> Save Answer</button>
-                <button class="btn btn-primary" name="save" value="next"><i class="fa fa-chevron-right fa-fw"></i> Next Question</button>
-                
+                <button class="btn btn-primary" name="button" value="next"><i class="fa fa-chevron-right fa-fw"></i> Next Question</button>
+                <button class="btn btn-success" type="submit" value="finish" name="button" ><i class="fa fa-save fa-fw"></i> Finish Attempt</button>            
               </div>
             </div>
           </div>
@@ -320,24 +319,24 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                 <li class="list-group-item">
                   <div class="media v-middle">
                     <div class="media-left">
-                      <div class="icon-block s30 bg-green-400 text-white">1</div>
+                      <div class="icon-block s30 bg-green-400 text-white"><i class="far fa-question-circle"></i></div>
                     </div>
                     <div class="media-body">
                       <a href="#" class="link-text-color"> {{ ques }} </a>
                     </div>
                   </div>
                 </li>
-                <!-- <li class="list-group-item">
+                <li class="list-group-item">
                   <div class="media v-middle">
                     <div class="media-left">
-                      <div class="icon-block s30 bg-blue-400 text-white">2</div>
+                      <div class="icon-block s30 bg-blue-400 text-white"><i class="fas fa-bullseye"></i></div>
                     </div>
                     <div class="media-body">
-                      <a href="#" class="link-text-color">Lorem ipsum dolor sit amet, consectetur adipisicing.</a>
+                      <a href="#" class="link-text-color">Total Question: {{total}}</a>
                     </div>
                   </div>
                 </li>
-                <li class="list-group-item">
+                <!-- <li class="list-group-item">
                   <div class="media v-middle">
                     <div class="media-left">
                       <div class="icon-block s30 bg-grey-400 text-white">3</div>
@@ -411,9 +410,9 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </div>
             <div class="panel-footer">
               <h4 class="text-subhead margin-v-0-5">Legend</h4>
-              <span class="fa fa-fw fa-circle text-green-400"></span> Answered question
+              <span class="fa fa-fw fa-circle text-green-400"></span> Selected question
               <br/>
-              <span class="fa fa-fw fa-circle text-blue-400"></span> Selected question
+              <span class="fa fa-fw fa-circle text-blue-400"></span> Total questions
             </div>
           </div>
 
