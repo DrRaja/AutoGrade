@@ -176,13 +176,13 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" />Instructor<span class="caret"></span>
+                <img src="{{url_for('static',filename='rabia.jpg')}} " alt="" class="img-circle" />Instructor<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="website-student-dashboard.html"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
                 <li><a href="website-student-courses.html"><i class="fa fa-mortar-board"></i> My Courses</a></li>
                 <li><a href="website-student-profile.html"><i class="fa fa-user"></i> Profile</a></li>
-                <li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
+                <li><a href="{{url_for('login')}}"><i class="fa fa-sign-out"></i> Logout</a></li>
               </ul>
             </li>
             <!-- // END user -->
@@ -200,15 +200,15 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
       <div class="media v-middle">
         <div class="media-left text-center">
           <a href="#">
-            <img src="{{url_for('static',filename='guy6.jpg')}}" alt="people" class="img-circle width-80" />
+            <img src="{{url_for('static',filename='rabia.jpg')}}" alt="people" class="img-circle width-80" />
           </a>
         </div>
         <div class="media-body">
-          <h1 class="text-white text-display-1 margin-v-0">Instructor</h1>
+          <h1 class="text-white text-display-1 margin-v-0">Student</h1>
           <!-- <p class="text-subhead"><a class="link-white text-underline" href="website-instructor-public-profile.html">View public profile</a></p> -->
         </div>
         <div class="media-right">
-          <span class="label bg-blue-500">Instructor</span>
+          <span class="label bg-blue-500">Student</span>
         </div>
       </div>
     </div>
@@ -251,7 +251,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                 <hr class="margin-none" />
                 <div class="panel-body">
 
-                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="{{ i}} "><i class="fas fa-eye"></i> Attempt</button>
+                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="{{ i }} "><i class="fas fa-eye"></i> Attempt</button>
 
                 </div>
 
@@ -334,7 +334,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                 <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-earnings.html">Earnings</a></li> -->
                 <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-statement.html">Statement</a></li> -->
                 <li class="list-group-item"><a class="link-text-color" href="website-instructor-profile.html">Profile</a></li>
-                <li class="list-group-item"><a class="link-text-color" href="login.html"><span>Logout</span></a></li>
+                <li class="list-group-item"><a class="link-text-color" href="{{url_for('login')}} "><span>Logout</span></a></li>
               </ul>
             </div>
           </div>

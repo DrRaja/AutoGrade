@@ -18,7 +18,8 @@ AnsDoc=[]
 Title=""
 count=0
 collectionName=''
-stdColName=""
+stdColName=''
+User='Student'
 
 class Exam:
     Question=""
@@ -42,8 +43,8 @@ class Database:
     AllCollections=db.list_collection_names()
     CreateName="quiz"+str(len(AllCollections)+1)
     FindName="quiz"+str(len(AllCollections))
-
-    stdDB=client.Student
+    global User
+    stdDB=client[User]
 
     def createExam(self,question,solution,marks,title):
         newCollection=self.db[self.CreateName]
@@ -74,21 +75,24 @@ class Database:
 
         return str(newQuiz)
 
-    def AttemptExam(self,dbname):
-        global stdColName
-        db=client[dbname]
+    def AttemptExam(self,dbname,stdColName):
+
+        exam=self.db[stdColName]
+        examList=exam.find()
+        
+        stdb=client[dbname]
         # documents=self.collection.find({},{'collections':1,'_id':0}) #for reading whatever value is stored in the collections column/field
         # for doc in documents:
         #     collecNum=doc['collections']
         # if int(collecNum)<len(self.AllCollections):
         #     exam=True
-        newExam=db[stdColName]
+        newExam=stdb[stdColName]
         global AnsDoc
         global Title
-        questions=newExam.find()
-        for quest in questions:
-            AnsDoc.append(Exam(quest['Question'],"",quest['Marks']))
-            Title=quest['Title']
+        
+        for exam in examList:
+            AnsDoc.append(Exam(exam['Question'],"",exam['Marks']))
+            Title=exam['Title']
         
         return True
 
@@ -113,18 +117,25 @@ class Database:
         return result
     
     def StudentNewExam(self,dbName):
+        ExamCollecList=self.db.list_collection_names()
+        ExamCollecList.remove('newcollection')
         stdDB=client[dbName]
-        collecList=stdDB.list_collection_names()
+        StdCollecList=stdDB.list_collection_names()
         new=[]
-        for collec in collecList:
-            count=stdDB[collec].find_one({"Answer":{'$exists':False}})
-            if count!=None:
+        # for collec in collecList:
+        #     count=stdDB[collec].find({"Answer":{'$exists':False}})
+        #     if count!=None:
+        #         new.append(collec)
+        for collec in ExamCollecList:
+            if collec not in StdCollecList:
                 new.append(collec)
         return new
 
     
     def getCollectionNames(self):
         names=self.db.list_collection_names()
+        names.remove('newcollection')
+        names.sort()
         return names
     
     def getExamData(self,dbname):
@@ -146,18 +157,185 @@ class Database:
         result=collection.insert_one(doc)
         return result
     
-    def AddAnswer(self,dbname,colname,question,answer):
+    def AddAnswer(self,dbname,colname,question,answer,marks,title):
         db=client[dbname]
-        coll=db[colname].update({
-            'Question':question
-        },
-        {
-            '$set':
-            {
-                'Answer':answer
+        coll=db[colname]
+        doc={
+            "Question":question,
+            "Answer":answer,
+            "Marks":marks,
+            "Title":title
+        }
+        result=coll.insert_one(doc)
+        return result
+    
+    def getStudentCollections(self, dbname):
+        stdDB=client[dbname.strip()]
+        result=stdDB.list_collection_names()
+        return result
+    
+    def Login(self,username,password):
+        infoDB=client.Info
+        collections=infoDB.login
+        documents=collections.find()
+        found=False
+        for doc in documents:
+            if doc['username']==username:
+                
+                if doc['password']==password:
+                    
+                    found=True
+                    break
+                else:
+                    
+                    found=False
+                    break
+            else:
+                found=False
+                
+        
+        return found
+    
+    def getRole(self,username):
+        infoDB=client.Info
+        collection=infoDB.login
+        documents=collection.find()
+        for doc in documents:
+            if doc['username']==username:
+                role=doc['role']
+        
+        return role
 
-            }
-        })
+
+class Grading:
+
+    def getSolution(self,collName):
+        db=client.Autograder
+        collection=db[collName.strip()]
+        documents=collection.find()
+        SolDoc=[]
+        for doc in documents:
+            SolDoc.append(doc['Solution'])
+
+        return SolDoc
+    
+    def getAnswers(self,dbname,collName):
+        db=client[dbname.strip()]
+        collection=db[collName]
+        documents=collection.find()
+        AnswerDoc=[]
+        for doc in documents:
+            AnswerDoc.append(doc['Answer'])
+        
+        return AnswerDoc
+    
+    def getMarks(self,collName):
+        db=client.Autograder
+        collection=db[collName.strip()]
+        documents=collection.find()
+        MarkDoc=[]
+        for doc in documents:
+            MarkDoc.append(doc['Marks'])
+
+        return MarkDoc
+    
+    def getQuestion(self,collName):
+        db=client.Autograder
+        collection=db[collName.strip()]
+        documents=collection.find()
+        QuesDoc=[]
+        for doc in documents:
+            QuesDoc.append(doc['Question'])
+
+        return QuesDoc
+    
+    def Grade(self,Solution,Answer):
+        strSol=Solution.split()
+        strAns=Answer.split()
+
+        cleanSol=[word for word in strSol if word not in STOP_WORDS]
+        cleanAns=[word for word in strAns if word not in STOP_WORDS]
+
+        sol=""
+        for word in cleanSol:
+            sol+=word
+            sol+=" "
+        
+        ans=""
+        for word in cleanAns:
+            ans+=word
+            ans+=" "
+
+        solution=nlp(sol)
+        answer=nlp(ans)
+
+        result=solution.similarity(answer)
+
+        return result
+
+class Result:
+
+    def getGrade(self,dbname,collectionName):
+        obj=Grading()
+        QuesDoc=obj.getQuestion(collectionName)
+        SolDoc=obj.getSolution(collectionName)
+        AnsDoc=obj.getAnswers(dbname,collectionName)
+        MarksDoc=obj.getMarks(collectionName)
+        count=0
+        ResultDoc=[]
+        for sol in SolDoc:
+            ans=AnsDoc[count]
+            marks=float(MarksDoc[count])
+            grade=obj.Grade(sol,ans)
+            print(grade)
+            result=marks*grade
+            print(result)
+            ResultDoc.append(result)
+
+            #storing in the student's database in the same collection where the questions and answers are stored
+            stdDB=client[dbname.strip()]
+            collection=stdDB[collectionName.strip()]
+            doc=collection.update({
+                "Question":QuesDoc[count]
+            },
+            {
+                "$set":
+                {
+                    "Obtained_Marks":str(result),
+                    "Percentage":str(grade)
+                }
+            })
+            count+=1
+        
+        
+        return ResultDoc
+
+    def DisplayResult(self,dbname,collectionName):
+        stdDB=client[dbname]
+        collection=stdDB[collectionName]
+        document=collection.find({"Percentage":{"$exists":True}})
+        tempList=[]
+        if document!=None:
+            for doc in document:
+                tempDict={}
+                tempDict['Question']=doc['Question']
+                tempDict['Answer']=doc['Answer']
+                tempDict['Obtained_Marks']=doc['Obtained_Marks']
+                tempDict['Total_Marks']=doc['Marks']
+                tempDict['Percentage']=doc['Percentage']
+                tempList.append(tempDict)
+                
+        
+        return tempList
+
+
+
+
+
+
+
+
+
 
 
 
@@ -172,28 +350,40 @@ class Database:
 @app.route('/')
 def main():
     
-    strSol=Solution.split()
-    strAns=Answer.split()
+    # strSol=Solution.split()
+    # strAns=Answer.split()
 
-    cleanSol=[word for word in strSol if word not in STOP_WORDS]
-    cleanAns=[word for word in strAns if word not in STOP_WORDS]
+    # cleanSol=[word for word in strSol if word not in STOP_WORDS]
+    # cleanAns=[word for word in strAns if word not in STOP_WORDS]
 
-    sol=""
-    for word in cleanSol:
-        sol+=word
-        sol+=" "
+    # sol=""
+    # for word in cleanSol:
+    #     sol+=word
+    #     sol+=" "
     
-    ans=""
-    for word in cleanAns:
-        ans+=word
-        ans+=" "
+    # ans=""
+    # for word in cleanAns:
+    #     ans+=word
+    #     ans+=" "
 
-    solution=nlp(sol)
-    answer=nlp(ans)
+    # solution=nlp(sol)
+    # answer=nlp(ans)
 
-    result=solution.similarity(answer)
+    # result=solution.similarity(answer)
 
     
+    # obj=Grading()
+    # SolDoc=obj.getSolution('quiz2')
+    # AnsDoc=obj.getAnswers('Student','quiz2')
+    # MarksDoc=obj.getMarks('quiz2')
+    # count=0
+    # for sol in SolDoc:
+    #     ans=AnsDoc[count]
+    #     marks=float(MarksDoc[count])
+    #     result=obj.Grade(sol,ans)
+    #     print(result)
+    #     print(marks*result)
+    #     count+=1
     # obj = Database()
     # value=obj.StudentDatabase("Student")
     # print(str(value))
@@ -233,23 +423,129 @@ def main():
     # for doc in data:
     #     print(doc)
 
-    # return redirect(url_for('quiz'))
     
-    return redirect(url_for('student_exams'))
+    # return redirect(url_for('instructor_dashboard'))
+    return redirect(url_for('login'))
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/login',methods=["GET","POST"])
+def loginPost():
+    username=request.form["username"]
+    password=request.form["password"]
+    print(username+"  "+password)
+    objDB=Database()
+    result=objDB.Login(username,password)
+    if result==True:
+        role=objDB.getRole(username)
+        if role=="instructor":
+            return redirect(url_for('instructor_dashboard'))
+        if role=="student":
+            return redirect(url_for('student_dashboard'))
+        
+    else:
+        errorMsg="* Invalid Username and Password Combination"
+        return render_template('login.html',error=errorMsg)
+    
+    return render_template('login.html')
+
+@app.route('/view-questions')
+def view_questions():
+    return render_template('view-questions.html')
+
+@app.route('/view-questions',methods=["GET","POST"])
+def view_question():
+    return render_template('view-questions.html')
+
+
+
+
+@app.route('/instructor-dashboard')
+def instructor_dashboard():
+    return render_template('instructor-dashboard.html')
+
+@app.route('/instructor-dashboard', methods=["GET","POST"])
+def instructor_dashboards():
+    btnClick=request.form["open"]
+    if btnClick=="view":
+        return redirect(url_for('instructor_exams'))
+    
+    if btnClick=="add":
+        return redirect(url_for('instructor'))
+    
+    if btnClick=="result":
+        return redirect(url_for('instructor_results'))
+
+
+
+
+
+@app.route('/student-dashboard')
+def student_dashboard():
+    return render_template('student-dashboard.html')
+
+@app.route('/student-dashboard',methods=["GET","POST"])
+def student_dashboards():
+    btnClick=request.form["open"]
+    if btnClick=="exam":
+        return redirect(url_for('student_exams'))
+    else:
+        return redirect(url_for('student_results'))
+
+@app.route('/student-results')
+def student_results():
+    global User
+    obj=Database()
+    mylist=obj.getStudentCollections(User)
+    return render_template('student-results.html',listi=mylist)
+
+@app.route('/student-results',methods=["GET","POST"])
+def student_result():
+    global stdColName
+    collec=request.form["open"]
+    stdColName=collec.strip()
+    return redirect(url_for('result'))
+
+
+@app.route('/result')
+def result():
+    obj=Result()
+    global stdColName
+    print(stdColName)
+    global User
+    print(User)
+    result=obj.DisplayResult(User,stdColName.strip())
+    marks=0.0
+    total=0
+    for doc in result:
+        marks+=float(doc['Obtained_Marks'])
+        total+=int(doc['Total_Marks'])
+    
+    percentage=(marks/total)*100
+
+    return render_template('result.html',documents=result,marks=marks,total=total,percentage=percentage)
 
 @app.route('/student-exams')
 def student_exams():
     obj=Database()
-    newList=obj.StudentNewExam("Student")
+    global User
+
+    newList=obj.StudentNewExam(User)
+    print(str(newList))
     return render_template('student-exams.html',listi=newList)
 
 @app.route('/student-exams',methods=["GET","POST"])
 def student_exam():
     global stdColName
     name=request.form["open"]
+    print(name)
     stdColName=name.strip()
     obj=Database()
-    obj.AttemptExam("Student")
+    global User
+    User='Student'
+    print(str(obj.AttemptExam(User,stdColName)))
     return redirect(url_for('quiz'))
 
 @app.route('/instructor')
@@ -272,7 +568,7 @@ def instruct():
         print(len(ExamDoc))
         for doc in ExamDoc:
             dbObj.createExam(doc.Question,doc.Solution,doc.Total_Marks,Title)
-        return redirect(url_for('add_mark'))
+        return redirect(url_for('instructor_dashboard'))
     else:
         ExamDoc.append(Exam(Question,Solution,Total_Marks))
         return redirect(url_for('instructor'))
@@ -295,28 +591,38 @@ def newmain():
 def quiz():
     global count
     global AnsDoc
+    print(len(AnsDoc))
     doc=AnsDoc[count]
     return render_template('quiz.html',ques=doc.Question,num=str(count+1),marks=doc.Total_Marks,total=str(len(AnsDoc)))
+
+@app.route('/teacher-exams')
+def teacher_exams():
+    return render_template('teacher-exams.html')
 
 @app.route('/quiz',methods=["GET","POST"])
 def funct():
     global count
     global AnsDoc
     global stdColName
+    global User
+    global Title
     Answer=request.form["answer"]
     print(Answer)
     obj=Database()
     doc=AnsDoc[count]
-    obj.AddAnswer("Student",stdColName,doc.Question,Answer)
+
+    obj.AddAnswer(User,stdColName,doc.Question,Answer,doc.Total_Marks,Title)
+    objResult=Result()
+    objResult.getGrade(User,stdColName)
     btnPress=request.form["button"]
     if btnPress=="next":
         if count==(len(AnsDoc)-1):
-            return redirect(url_for('add_mark'))
+            return redirect(url_for('result'))
         else:
-            count+=1
+            count=count+1
             return redirect(url_for('quiz'))
     else:
-        return redirect(url_for('add_mark'))
+        return redirect(url_for('result'))
 
 
     # print(Answer)
@@ -339,6 +645,14 @@ def instructor_exams():
     obj=Database()
     name=obj.getCollectionNames()
     return render_template('instructor-exams.html',listi=name)
+
+@app.route('/instructor-results')
+def instructor_results():
+    global User
+    obj=Database()
+    mylist=obj.getStudentCollections(User)
+    return render_template('instructor-exams',listi=mylist)
+
 
 @app.route('/instructor-exams',methods=["GET","POST"])
 def examsfunc():
