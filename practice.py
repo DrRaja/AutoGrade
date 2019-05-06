@@ -1,35 +1,46 @@
 from flask import Flask
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS
 app=Flask("__main__")
 app.debug=True
+nlp=spacy.load('en_core_web_sm')
 
 
-
-class Exam:
-    Question=""
-    Solution=""
-    Total_Marks=""
-    count=0
-
-    def __init__(self,question,solution,total_marks):
-        self.Question=question
-        self.Solution=solution
-        self.Total_Marks=total_marks
-        Exam.count+=1
-
-    def print(self):
-        string=self.Question+"  "+self.Solution+"   "+self.Total_Marks+"    "
-        return string
 
 @app.route('/')
 def main():
+    Solution="i am a girl"
+    Answer="i am a woman"
+    marks=5
 
-    l=[]
-    l.append(Exam("Hello","World","10"))
-    l.append(Exam("I","Am","9"))
-    l.append(Exam("Rabia","Shah","8"))
-    l[0].question="Hello I am changed"
+    strSol=Solution.split()
+    strAns=Answer.split()
 
-    return str(len(l))
+    cleanSol=[word for word in strSol if word not in STOP_WORDS]
+    cleanAns=[word for word in strAns if word not in STOP_WORDS]
+
+    sol=""
+    for word in cleanSol:
+        sol+=word
+        sol+=" "
+    
+    ans=""
+    for word in cleanAns:
+        ans+=word
+        ans+=" "
+
+    solution=nlp(sol)
+    answer=nlp(ans)
+
+    sim=solution.similarity(answer)
+    result=sim*marks
+    print("%.2f" % result)
+
+    return str(result)
+
+    
+
+  
 
 
 

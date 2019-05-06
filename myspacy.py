@@ -90,11 +90,14 @@ class Database:
         global AnsDoc
         global Title
         
-        for exam in examList:
-            AnsDoc.append(Exam(exam['Question'],"",exam['Marks']))
-            Title=exam['Title']
+        for exams in examList:
+            print(exams['Question'])
+            print(exams['Marks'])
+            AnsDoc.append(Exam(exams['Question'],"",exams['Marks']))
+            Title=exams['Title']
+            print(exams['Title'])
         
-        return True
+        return AnsDoc
 
     def StudentDatabase(self,stdName):
         collecList=self.db.list_collection_names()
@@ -157,14 +160,17 @@ class Database:
         result=collection.insert_one(doc)
         return result
     
-    def AddAnswer(self,dbname,colname,question,answer,marks,title):
+    def AddAnswer(self,dbname,colname,question,answer,marks,title,result):
         db=client[dbname]
         coll=db[colname]
+        mark=int(int(marks)*result)
         doc={
             "Question":question,
             "Answer":answer,
             "Marks":marks,
-            "Title":title
+            "Title":title,
+            "Percentage":result,
+            "Obtained_Marks":mark
         }
         result=coll.insert_one(doc)
         return result
@@ -243,9 +249,11 @@ class Grading:
         db=client.Autograder
         collection=db[collName.strip()]
         documents=collection.find()
+        global Title
         QuesDoc=[]
         for doc in documents:
             QuesDoc.append(doc['Question'])
+            Title=doc['Title']
 
         return QuesDoc
     
@@ -275,7 +283,7 @@ class Grading:
 
 class Result:
 
-    def getGrade(self,dbname,collectionName):
+    def getGrade(self,dbname,collectionName, ans):
         obj=Grading()
         QuesDoc=obj.getQuestion(collectionName)
         SolDoc=obj.getSolution(collectionName)
@@ -284,11 +292,10 @@ class Result:
         count=0
         ResultDoc=[]
         for sol in SolDoc:
-            ans=AnsDoc[count]
             marks=float(MarksDoc[count])
-            grade=obj.Grade(sol,ans)
+            grade=int(obj.Grade(sol,ans))
             print(grade)
-            result=marks*grade
+            result=int(marks*grade)
             print(result)
             ResultDoc.append(result)
 
@@ -350,85 +357,16 @@ class Result:
 @app.route('/')
 def main():
     
-    # strSol=Solution.split()
-    # strAns=Answer.split()
-
-    # cleanSol=[word for word in strSol if word not in STOP_WORDS]
-    # cleanAns=[word for word in strAns if word not in STOP_WORDS]
-
-    # sol=""
-    # for word in cleanSol:
-    #     sol+=word
-    #     sol+=" "
-    
-    # ans=""
-    # for word in cleanAns:
-    #     ans+=word
-    #     ans+=" "
-
-    # solution=nlp(sol)
-    # answer=nlp(ans)
-
-    # result=solution.similarity(answer)
-
-    
-    # obj=Grading()
-    # SolDoc=obj.getSolution('quiz2')
-    # AnsDoc=obj.getAnswers('Student','quiz2')
-    # MarksDoc=obj.getMarks('quiz2')
-    # count=0
-    # for sol in SolDoc:
-    #     ans=AnsDoc[count]
-    #     marks=float(MarksDoc[count])
-    #     result=obj.Grade(sol,ans)
-    #     print(result)
-    #     print(marks*result)
-    #     count+=1
-    # obj = Database()
-    # value=obj.StudentDatabase("Student")
-    # print(str(value))
-    # value=obj.StudentNewExam("Student")
-    # print(value)
-
-
-    # for doc in AnsDoc:
-
-    # db=client.Autograder
-    # temp=db.list_collection_names()
-    # print(str(temp) +"  "+ "quiz"+str(len(temp)))
-
-    # collection=db.newcollection
-
-    #for inserting the document
-    # col={Solution:Answer}
-    # temp=collection.insert_one(col)
-
-    #if document is inserted successfully into the collection, then return its object_id
-    # if temp.acknowledged:
-    #     print (temp.inserted_id)
-
-    #for finding one document in the collection
-    # data=collection.find_one()
-    # print(data)
-
-    #finding all the documents into the collection
-    # data=collection.find()
-    # for document in data:
-    #     print(document)
-
-    #finding any document based on a filter/condition
-    # data=collection.find({
-    #     'hello':'world'
-    # })
-    # for doc in data:
-    #     print(doc)
-
-    
-    # return redirect(url_for('instructor_dashboard'))
     return redirect(url_for('login'))
 
 @app.route('/login')
 def login():
+    global Title
+    global AnsDoc
+    global stdColName
+    AnsDoc=""
+    stdColName=""
+    Title=""
     return render_template('login.html')
 
 @app.route('/login',methods=["GET","POST"])
@@ -520,7 +458,7 @@ def result():
     marks=0.0
     total=0
     for doc in result:
-        marks+=float(doc['Obtained_Marks'])
+        marks+=int(doc['Obtained_Marks'])
         total+=int(doc['Total_Marks'])
     
     percentage=(marks/total)*100
@@ -591,9 +529,15 @@ def newmain():
 def quiz():
     global count
     global AnsDoc
-    print(len(AnsDoc))
-    doc=AnsDoc[count]
-    return render_template('quiz.html',ques=doc.Question,num=str(count+1),marks=doc.Total_Marks,total=str(len(AnsDoc)))
+    global stdColName
+    # print(len(AnsDoc))
+    # doc=AnsDoc[count]
+    obj=Grading()
+    questions=obj.getQuestion(stdColName)
+    
+    marks=obj.getMarks(stdColName)
+    
+    return render_template('quiz.html',ques=questions[count],num=str(count+1),marks=marks[count],total=str(len(AnsDoc)))
 
 @app.route('/teacher-exams')
 def teacher_exams():
@@ -606,23 +550,42 @@ def funct():
     global stdColName
     global User
     global Title
+    objGrading=Grading()
+    solutions=objGrading.getSolution(stdColName)
+    questions=objGrading.getQuestion(stdColName)
+    marks=objGrading.getMarks(stdColName)
+    print(count)
     Answer=request.form["answer"]
     print(Answer)
     obj=Database()
-    doc=AnsDoc[count]
-
-    obj.AddAnswer(User,stdColName,doc.Question,Answer,doc.Total_Marks,Title)
-    objResult=Result()
-    objResult.getGrade(User,stdColName)
     btnPress=request.form["button"]
     if btnPress=="next":
-        if count==(len(AnsDoc)-1):
+        # doc=AnsDoc[count]
+        
+        objResult=Result()
+        objGrade=Grading()
+        # objResult.getGrade(User,stdColName,Answer)
+        result=objGrade.Grade(solutions[count],Answer)
+        obj.AddAnswer(User,stdColName,questions[count],Answer,marks[count],Title,result)
+        print(result)
+        if count==(len(questions)-1):
             return redirect(url_for('result'))
         else:
             count=count+1
             return redirect(url_for('quiz'))
     else:
+        objResult=Result()
+        objGrade=Grading()
+        
+        # objResult.getGrade(User,stdColName,Answer)
+        result=objGrade.Grade(solutions[count],Answer)
+        obj.AddAnswer(User,stdColName,questions[count],Answer,marks[count],Title,result)
+        print(result)
         return redirect(url_for('result'))
+
+
+
+
 
 
     # print(Answer)
@@ -648,10 +611,32 @@ def instructor_exams():
 
 @app.route('/instructor-results')
 def instructor_results():
-    global User
+    return render_template('instructor-results.html')
+
+@app.route('/instructor-results', methods=["GET","POST"])
+def instructor_result():
+    btn=request.form["open"]
+    if btn=="Student":
+        return redirect(url_for('alls'))
+
+    if btn=="Learner":
+        return redirect(url_for('alls'))
+
+@app.route('/instructor-allresults')
+def alls():
     obj=Database()
-    mylist=obj.getStudentCollections(User)
-    return render_template('instructor-exams',listi=mylist)
+    mylist=obj.getStudentCollections('Student')
+    return render_template('instructor-allresults.html',lists=mylist)
+
+@app.route('/instructor-allresults', methods=["GET","POST"])
+def allss():
+    global stdColName
+    Name=request.form["open"]
+    stdColName=Name.strip()
+    return redirect(url_for('result'))
+
+
+
 
 
 @app.route('/instructor-exams',methods=["GET","POST"])

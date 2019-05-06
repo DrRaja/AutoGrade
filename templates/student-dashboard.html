@@ -125,7 +125,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{url_for('static',filename='rabia.jpg')}} " alt="" class="img-circle" />Student<span class="caret"></span>
+                <img src="{{url_for('static',filename='autograder.jpg')}} " alt="" class="img-circle" />Student<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{url_for('student_dashboard')}} "><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
@@ -212,13 +212,13 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
   
                   <div class="cover overlay cover-image-full hover">
                     <span class="img icon-block height-150 bg-lightred"></span>
-                    <a href="website-instructor-course-edit-course.html" class="padding-none overlay overlay-full icon-block bg-lightred">
+                    <a  class="padding-none overlay overlay-full icon-block bg-lightred">
                       <span class="v-center">
                         <i class="fas fa-laptop-code"></i>
               </span>
                     </a>
   
-                    <a href="website-instructor-course-edit-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                    <a  class="overlay overlay-full overlay-hover overlay-bg-white">
                       <span class="v-center">
                   <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
                       </span>
@@ -295,12 +295,12 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </div>
             <div class="panel-body list-group">
               <ul class="list-group list-group-menu">
-                <li class="list-group-item"><a class="link-text-color" href="website-instructor-dashboard.html">Dashboard</a></li>
+                <li class="list-group-item"><a class="link-text-color" href="{{url_for('student_dashboard')}} ">Dashboard</a></li>
                 <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-courses.html">My Courses</a></li> -->
                 <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-messages.html">Messages</a></li> -->
                 <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-earnings.html">Earnings</a></li> -->
                 <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-statement.html">Statement</a></li> -->
-                <li class="list-group-item"><a class="link-text-color" href="website-instructor-profile.html">Profile</a></li>
+                <li class="list-group-item"><a class="link-text-color" href="{{url_for('student_results')}} ">Student Results</a></li>
                 <li class="list-group-item"><a class="link-text-color" href="{{url_for('login')}}"><span>Logout</span></a></li>
               </ul>
             </div>
@@ -320,7 +320,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                           <i class="fas fa-chalkboard-teacher"></i>
                         </span>
                         </span>
-                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                        <a  class="overlay overlay-full overlay-hover overlay-bg-white">
                           <span class="v-center">
                             <span class="btn btn-circle btn-white btn-lg"><i class="fas fa-chalkboard-teacher"></i></span>
                           </span>
@@ -328,7 +328,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Instructor</a></h4>
+                      <h4 class="media-heading margin-v-5-3"><a >Instructor</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
@@ -353,7 +353,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                           <i class="fa fa-graduation-cap"></i>
                         </span>
                         </span>
-                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                        <a  class="overlay overlay-full overlay-hover overlay-bg-white">
                           <span class="v-center">
                             <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
                           </span>
@@ -361,7 +361,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='rabia.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Syeda Rabia Arshad</a></h4>
+                      <h4 class="media-heading margin-v-5-3"><a >Syeda Rabia Arshad</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
@@ -386,7 +386,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                           <i class="fa fa-graduation-cap"></i>
                         </span>
                         </span>
-                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
+                        <a class="overlay overlay-full overlay-hover overlay-bg-white">
                           <span class="v-center">
                             <span class="btn btn-circle btn-red-500 btn-lg"><i class="fa fa-graduation-cap"></i></span>
                           </span>
@@ -394,7 +394,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='izza.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a href="website-course.html">Syyeda Izza Naqvi</a></h4>
+                      <img src="{{url_for('static',filename='izza.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a >Syyeda Izza Naqvi</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
@@ -421,7 +421,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
   <!-- Footer -->
   <footer class="footer">
-    <strong>Learning</strong> v1.1.0 &copy; Copyright 2015
+    <strong>AutoGrader</strong>An Automated Answer Grading System &copy; Copyright 2019
   </footer>
   <!-- // Footer -->
 {% endblock %}
