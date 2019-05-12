@@ -11,8 +11,7 @@ cymem==2.0.2
 cytoolz==0.9.0.1
 dill==0.2.9
 docutils==0.14
-spacy==2.0.18
-https://github.com//explosion//spacy-models//blob//master//meta//en_core_web_sm-2.0.0.json
+en-core-web-sm==2.0.0
 Flask==1.0.2
 Flask-PyMongo==2.2.0
 gensim==3.7.0
@@ -51,6 +50,7 @@ singledispatch==3.4.0.3
 six==1.12.0
 smart-open==1.8.0
 smmap2==2.0.5
+spacy==2.0.18
 thinc==6.12.1
 toolz==0.9.0
 tqdm==4.30.0
