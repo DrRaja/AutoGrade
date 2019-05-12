@@ -113,7 +113,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                   
                   <li><a href="{{url_for('instructor')}} ">Add Exam</a></li>
           
-                  <li><a href="{{url_for('teacher_exams')}} ">View Results</a></li>
+                  <li><a href="{{url_for('instructor_results')}} ">View Results</a></li>
                 </ul>
               </li>
           
@@ -171,7 +171,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
           <div class="row" data-toggle="isotope">
             
             
-            {% for i in listi %}
+            {% for i,j in listi %}
             <div class="item col-xs-12 col-sm-6 col-lg-4">
               <div class="panel panel-default paper-shadow" data-z="0.5">
 
@@ -192,13 +192,13 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                 </div>
 
                 <div class="panel-body">
-                  <h4 class="text-headline margin-v-0-10">Name: {{ i }}</h4>
+                  <h4 class="text-headline margin-v-0-10">{{ j }}</h4>
 
                 </div>
                 <hr class="margin-none" />
                 <div class="panel-body">
 
-                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="{{ i}} "><i class="fas fa-eye"></i> View course</button>
+                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="{{ i }} "><i class="fas fa-eye"></i> View Exam</button>
 
                 </div>
 

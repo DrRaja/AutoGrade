@@ -12,8 +12,7 @@
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
     TIP: Using bundles will improve performance by reducing the number of network requests the client needs to make when loading the page. -->
-  <link href=" {{url_for('static', filename='all.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="{{url_for('static',filename='all.css')}} " rel="stylesheet">
 
   <!-- Vendor CSS Standalone Libraries
         NOTE: Some of these may have been customized (for example, Bootstrap).
@@ -44,7 +43,9 @@ NOTE:
 TIP:
     - Using bundles will improve performance by greatly reducing the number of network requests the client needs to make when loading the page. -->
   <link href="{{url_for('static',filename='app.css')}} " rel="stylesheet">
-
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <!-- App CSS CORE
 This variant is to be used when loading the separate styling modules -->
   <!-- <link href="css/app/main.css" rel="stylesheet"> -->
@@ -80,8 +81,8 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 </head>
 
 <body>
-  {% block body %}
-<form method="POST" action="/instructor">
+{% block body %}
+<form method="POST" action="/Student-Result">
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
     <div class="container">
@@ -104,61 +105,50 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="main-nav">
         <ul class="nav navbar-nav navbar-nav-margin-left">
-        
           
-        
-          <li class="dropdown active">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instructor <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="{{url_for('instructor_dashboard')}} ">Dashboard</a></li>
-                
-                <li><a href="{{url_for('instructor')}} ">Add Exam</a></li>
-        
-                <li><a href="{{url_for('instructor_results')}} ">View Results</a></li>
-              </ul>
-          </li>
+          
+          
           
         </ul>
         <div class="navbar-right">
           <ul class="nav navbar-nav navbar-nav-bordered navbar-nav-margin-right">
             <!-- user -->
-            <li class="dropdown user">
+            <!-- <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{url_for('static',filename='autograder.jpg')}} " alt="" class="img-circle" /> Instructor<span class="caret"></span>
+                <img src="{{url_for('static',filename='guy-6.jpg')}} " alt="" class="img-circle" />Instructor<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{url_for('instructor_dashboard')}} "><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
-                  <!-- <li><a href="website-student-courses.html"><i class="fa fa-mortar-board"></i> My Courses</a></li> -->
-                  <!-- <li><a href="website-student-profile.html"><i class="fa fa-use/r"></i> </a></li> -->
-                  <li><a href="{{url_for('login')}}"><i class="fa fa-sign-out"></i> Logout</a></li>
-                </ul>
-            </li>
+                <li><a href="website-student-dashboard.html"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
+                <li><a href="website-student-courses.html"><i class="fa fa-mortar-board"></i> My Courses</a></li>
+                <li><a href="website-student-profile.html"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="{{url_for('login')}} "><i class="fa fa-sign-out"></i> Logout</a></li>
+              </ul>
+            </li> -->
             <!-- // END user -->
           </ul>
-      
+          <a href="{{url_for('login')}} " class="navbar-btn btn btn-primary">Log Out</a>
         </div>
       </div>
       <!-- /.navbar-collapse -->
 
     </div>
   </div>
-  
 
-  <div class="parallax overflow-hidden bg-blue-400 page-section third">
+  <div class="parallax bg-white page-section" style="background-color:dodgerblue;">
     <div class="container parallax-layer" data-opacity="true">
       <div class="media v-middle">
-        <div class="media-left text-center">
-          <a href="#">
-            <img src="{{url_for('static',filename='autograder.jpg')}}" alt="people" class="img-circle width-80" />
-          </a>
-        </div>
         <div class="media-body">
-          <h1 class="text-white text-display-1 margin-v-0">Instructor</h1>
-          <!-- <p class="text-subhead"><a class="link-white text-underline" href="website-instructor-public-profile.html">View public profile</a></p> -->
+          <h1 class="text-display-2 margin-none" style="color: ghostwhite;">Result</h1>
+          <!-- <p class="text-light lead">Browse through thousands of lessons.</p> -->
         </div>
-        <div class="media-right">
-          <span class="label bg-blue-500">Instructor</span>
-        </div>
+        <!-- <div class="media-right">
+          <div class="width-100 text-right">
+            <div class="btn-group">
+              <a class="btn btn-white" href="website-directory-grid.html"><i class="fa fa-th"></i></a>
+              <a class="btn btn-grey-900" href="website-directory-list.html"><i class="fa fa-list"></i></a>
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -169,81 +159,78 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
       <div class="row">
 
         <div class="col-md-9">
+          {% for data in documents%}
+          <div class="panel panel-default paper-shadow" data-z="0.5">
+            <div class="panel-body">
 
-          <!-- Tabbable Widget -->
-          <div class="tabbable paper-shadow relative" data-z="0.5">
-
-            <!-- Tabs -->
-            <ul class="nav nav-tabs">
-              <li class="active"><a ><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs">Course</span></a></li>
-              <!-- <li><a href="/add_marks"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Add Marks</span></a></li> -->
-              <!-- <li><a href="website-instructor-course-edit-lessons.html"><i class="fa fa-fw fa-credit-card"></i> <span class="hidden-sm hidden-xs">Lessons</span></a></li> -->
-            </ul>
-            <!-- // END Tabs -->
-
-            <!-- Panes -->
-            <div class="tab-content">
-
-              <div id="course" class="tab-pane active">
-                <form action="">
-                  <div class="form-group form-control-material">
-                      <p style="color:crimson;">{{ error }} </p>
-                    <input type="text"  name="title" id="title" placeholder="Course Title" class="form-control used" value="{{ titleValue }} " />
-                    <label for="title" style="font-size: 17px">Exam Title</label>
+              <div class="media media-clearfix-xs">
+                <div class="media-left text-center">
+                  <div class="cover width-150 width-100pc-xs overlay cover-image-full hover margin-v-0-10">
+                    <span class="img icon-block height-130 bg-lightred"></span>
+                    <span class="overlay overlay-full padding-none icon-block bg-purple">
+                        <span class="v-center">
+                          <i class="fas fa-star"></i>
+                        </span>
+                    </span>
+                    <a  class="overlay overlay-full overlay-hover overlay-bg-white">
+                      <span class="v-center">
+                            <span class="btn btn-circle btn-red-500 btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                      </span>
+                    </a>
                   </div>
-                  <div class="form-group">
-                      <p style="color:crimson;">{{ error }} </p>
-                    <label for="description" style="font-size: 18px">Question</label>
-                    <input type="text" name="quest" style="border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 100%; padding: 12px 20px;"/>
+                </div>
+                <div class="media-body">
+                  <h4 class="text-headline margin-v-5-0">&emsp;Question: {{ data['Question'] }}</h4>
+                  <p>&emsp;  Answer: {{ data['Answer'] }} </p>
+
+                  <hr class="margin-v-8" />
+                  <div class="media v-middle">
+                    <div class="media-left">
+                      
+                    </div>
+                    <div class="media-body">
+                      <h4>Score: {{ data['Obtained_Marks'] }} /{{ data['Total_Marks'] }}
+                          
+                        
+                        <br/>
+                      </h4>
+                    </div>
                   </div>
 
-                  <div class="form-group">
-                      <p style="color:crimson;">{{ error }} </p>
-                    <label for="description" style="font-size: 18px">Solution</label>
-                    <textarea name="solution" id="description" cols="30" rows="10" class="summernote"></textarea><br>
-                    <p style="color:crimson;">{{ error }} </p>
-                    <label for="description" style="font-size: 18px">Total Marks</label>
-                    <input type="number" name="marks" style="border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; width: 20%; padding: 8px 10px;"/>
-                    <!-- <br><label for="description" style="font-size: 18px">Excellent Answer</label><br>
-                    <label for="description" style="font-size: 18px">Average Answer</label><br>
-                    <label for="description" style="font-size: 18px">Novice Answer</label> -->
-                  </div>
-                </form>
-                <div class="text-right">
-                  <button class="btn btn-primary" name="button" value="next"><i class="fa fa-chevron-right fa-fw"></i> New Question</button>
-                  <button class="btn btn-success" type="submit" value="save" name="button" ><i class="fa fa-save fa-fw"></i> Done </button>
-                  
                 </div>
               </div>
 
             </div>
-            <!-- // END Panes -->
-
           </div>
-          <!-- // END Tabbable Widget -->
-
+          {% endfor %}
           <br/>
           <br/>
+          <h3>Total Marks: {{ marks }}/ {{ total }} </h3>
+          
+              <canvas id="myChart" style="height: 400px; width: 100%;"></canvas>
+            
 
         </div>
         <div class="col-md-3">
 
           <div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
             <div class="panel-heading panel-collapse-trigger">
-              <h4 class="panel-title">My Account &emsp14;&emsp14;&emsp14;&emsp14;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <i class="far fa-caret-square-down"></i></h4>
+              <h4 class="panel-title">My Account &emsp14;&emsp14;&emsp14;&emsp14;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <i class="far fa-caret-square-down"></i></h4>
             </div>
             <div class="panel-body list-group">
                 <ul class="list-group list-group-menu">
-                    <li class="list-group-item"><a class="link-text-color" href="{{url_for('instructor_dashboard')}} ">Dashboard</a></li>
+                    <li class="list-group-item"><a class="link-text-color" href="{{url_for('student_dashboard')}} ">Dashboard</a></li>
                     <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-courses.html">My Courses</a></li> -->
                     <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-messages.html">Messages</a></li> -->
                     <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-earnings.html">Earnings</a></li> -->
                     <!-- <li class="list-group-item"><a class="link-text-color" href="website-instructor-statement.html">Statement</a></li> -->
-                    <li class="list-group-item"><a class="link-text-color" href="{{url_for('instructor')}} ">Add Exam</a></li>
+                    <!-- <li class="list-group-item"><a class="link-text-color" href="{{url_for('instructor')}} ">Add Exam</a></li> -->
                     <li class="list-group-item"><a class="link-text-color" href="{{url_for('login')}}"><span>Logout</span></a></li>
                   </ul>
             </div>
           </div>
+
+          
 
           <h4>Featured</h4>
           <div class="slick-basic slick-slider" data-items="1" data-items-lg="1" data-items-md="1" data-items-sm="1" data-items-xs="1">
@@ -292,7 +279,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                           <i class="fa fa-graduation-cap"></i>
                         </span>
                         </span>
-                        <a  class="overlay overlay-full overlay-hover overlay-bg-white">
+                        <a href="website-course.html" class="overlay overlay-full overlay-hover overlay-bg-white">
                           <span class="v-center">
                             <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
                           </span>
@@ -300,7 +287,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='rabia.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a >Syeda Rabia Arshad</a></h4>
+                      <h4 class="media-heading margin-v-5-3"><a >Syeda Rabia Arshad</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
@@ -333,7 +320,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='izza.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a >Syyeda Izza Naqvi</a></h4>
+                      <h4 class="media-heading margin-v-5-3"><a >Syyeda Izza Naqvi</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
@@ -358,13 +345,65 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
   </div>
 
+  <section class="footer-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <h4 class="text-headline text-light">Corporate</h4>
+          <ul class="list-unstyled">
+            <li><a href="#">About the company</a></li>
+            <li><a href="#">Company offices</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Terms of use</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Contact us</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <h4 class="text-headline text-light">Explore</h4>
+          <ul class="list-unstyled">
+            <li><a href="">Courses</a></li>
+            <li><a href="">Tutors</a></li>
+            <li><a href="">Pricing</a></li>
+            <li><a href="">Become Tutor</a></li>
+            <li><a href="">Sign Up</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <h4 class="text-headline text-light">Newsletter</h4>
+
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Enter email here...">
+              <span class="input-group-btn">
+								<button class="btn btn-grey-800" type="button">Subscribe</button>
+							  </span>
+            </div>
+          </div>
+          <br/>
+          <p>
+            <a href="#" class="btn btn-indigo-500 btn-circle"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="btn btn-pink-500 btn-circle"><i class="fa fa-dribbble"></i></a>
+            <a href="#" class="btn btn-blue-500 btn-circle"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="btn btn-danger btn-circle"><i class="fa fa-google-plus"></i></a>
+          </p>
+
+          <p class="text-subhead">
+            &copy; 2015 Learning App by mosaicpro.
+          </p>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="footer">
     <strong>AutoGrader</strong> An Automated Answer Grading System &copy; Copyright 2019
   </footer>
   <!-- // Footer -->
-  {% endblock %}
-
+{% endblock %}
   <!-- Inline Script for colors and config objects; used by various external scripts; -->
   <script>
     var colors = {
@@ -448,6 +487,68 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
         app.js already includes main.js so this should be loaded
         ONLY when using the standalone modules; -->
   <!-- <script src="js/app/main.js"></script> -->
+  <script>
+      let myChart = document.getElementById('myChart').getContext('2d');
+      // myChart.style.width='500';
+      // myChart.style.height='500';
+  
+      // Global Options
+      Chart.defaults.global.defaultFontFamily = 'Lato';
+      Chart.defaults.global.defaultFontSize = 18;
+      Chart.defaults.global.defaultFontColor = '#777';
+      
+    
+      var value = '{{ percentage }}';
+      var total=100;
+  
+      let massPopChart = new Chart(myChart, {
+        type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+          labels:['Percentage','Total'],
+          datasets:[{
+            label:'Population',
+            data:[
+              value,
+              total
+            ],
+            //backgroundColor:'green',
+            backgroundColor:[
+              'rgba(255, 99, 132, 0.6)'
+            ],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000'
+          }]
+        },
+        options:{
+          title:{
+            display:true,
+            text:'Percentage of total Similarity',
+            fontSize:25
+          },
+          legend:{
+            display:true,
+            position:'right',
+            labels:{
+              fontColor:'#000'
+            }
+          },
+          layout:{
+            padding:{
+              left:50,
+              right:0,
+              bottom:0,
+              top:0
+            },
+            
+          },
+          tooltips:{
+            enabled:true
+          }
+        }
+      });
+    </script>
 </form>
 </body>
 

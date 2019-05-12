@@ -112,7 +112,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                   <!-- <li><a href="website-student-courses.html">My Courses</a></li> -->
                   <!-- <li><a href="website-take-course.html">Take Course</a></li> -->
                   <!-- <li><a href="website-course-forums.html">Course Forums</a></li> -->
-                  <li><a href="{{url_for('quiz')}} ">Take Quiz</a></li>
+                  <li><a href="{{url_for('student_exams')}} ">Take Quiz</a></li>
                   <!-- <li><a href="website-student-messages.html">Messages</a></li> -->
                   <li><a href="{{url_for('student_results')}} ">View Results</a></li>
                 </ul>
@@ -173,7 +173,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
           <div class="row" data-toggle="isotope">
             
             
-            {% for i in listi %}
+            {% for i,j in listi %}
             <div class="item col-xs-12 col-sm-6 col-lg-4">
               <div class="panel panel-default paper-shadow" data-z="0.5">
 
@@ -194,7 +194,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                 </div>
 
                 <div class="panel-body">
-                  <h4 class="text-headline margin-v-0-10">New: {{ i }}</h4>
+                  <h4 class="text-headline margin-v-0-10"><b>New:</b> {{ j }}</h4>
 
                 </div>
                 <hr class="margin-none" />

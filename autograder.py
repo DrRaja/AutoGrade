@@ -10,8 +10,6 @@ client=MongoClient('mongodb://localhost:27017')
 
 Total_Marks=""
 Question=""
-Solution="Bahria University is student"
-Answer="I student Bahria University"
 
 ExamDoc=[]
 AnsDoc=[]
@@ -19,7 +17,9 @@ Title=""
 count=0
 collectionName=''
 stdColName=''
-User='Student'
+StudentName='Student'
+InstructorName='Instructor'
+
 
 class Exam:
     Question=""
@@ -38,22 +38,29 @@ class Exam:
         return string
 
 class Database:
+    
     db=client.Autograder
     collection=db.newcollection
     AllCollections=db.list_collection_names()
-    CreateName="quiz"+str(len(AllCollections)+1)
+    
+    
     FindName="quiz"+str(len(AllCollections))
-    global User
-    stdDB=client[User]
+    global StudentName
+    stdDB=client[StudentName]
 
-    def createExam(self,question,solution,marks,title):
-        newCollection=self.db[self.CreateName]
+    def createExam(self,instName,question,solution,marks,title):
+        allCollections=self.db.list_collection_names()
+        CreateName="quiz"+str(len(allCollections)+1)
+        instDb=client[instName]
+        instCollection=instDb[CreateName]
+        newCollection=self.db[CreateName]
         doc={"Question":question,
         "Solution":solution,
         "Marks":marks,
         "Title":title
         }
         addDoc=newCollection.insert_one(doc) 
+        instCollection.insert_one(doc)
         return addDoc
     
     def updateCollectionNum(self):
@@ -80,13 +87,6 @@ class Database:
         exam=self.db[stdColName]
         examList=exam.find()
         
-        stdb=client[dbname]
-        # documents=self.collection.find({},{'collections':1,'_id':0}) #for reading whatever value is stored in the collections column/field
-        # for doc in documents:
-        #     collecNum=doc['collections']
-        # if int(collecNum)<len(self.AllCollections):
-        #     exam=True
-        newExam=stdb[stdColName]
         global AnsDoc
         global Title
         
@@ -124,22 +124,31 @@ class Database:
         ExamCollecList.remove('newcollection')
         stdDB=client[dbName]
         StdCollecList=stdDB.list_collection_names()
+
         new=[]
-        # for collec in collecList:
-        #     count=stdDB[collec].find({"Answer":{'$exists':False}})
-        #     if count!=None:
-        #         new.append(collec)
+        titleList=[]
         for collec in ExamCollecList:
             if collec not in StdCollecList:
+                collection=self.db[collec]  
+                doc=collection.find_one()    #find that collection in the database and find any one of it's document (question)
+                title=doc['Title']           #save that document's title and append it into the list, then return both the lists.
+                titleList.append(title)
                 new.append(collec)
-        return new
+
+        return new, titleList
 
     
     def getCollectionNames(self):
-        names=self.db.list_collection_names()
-        names.remove('newcollection')
-        names.sort()
-        return names
+        result=self.db.list_collection_names()
+        result.remove('newcollection')
+        result.sort(reverse=True)
+        titleCol=[]
+        for name in result:
+            collection=self.db[name]
+            doc=collection.find_one()
+            title=doc['Title']
+            titleCol.append(title)
+        return result,titleCol
     
     def getExamData(self,dbname):
         collection=self.db[dbname]
@@ -175,10 +184,17 @@ class Database:
         result=coll.insert_one(doc)
         return result
     
-    def getStudentCollections(self, dbname):
+    def getCollectionsandTitles(self, dbname):
         stdDB=client[dbname.strip()]
         result=stdDB.list_collection_names()
-        return result
+        titleCol=[]
+        for name in result:
+            collection=stdDB[name]
+            doc=collection.find_one()
+            title=doc['Title']
+            titleCol.append(title)
+        return result,titleCol
+    
     
     def Login(self,username,password):
         infoDB=client.Info
@@ -287,7 +303,7 @@ class Result:
         obj=Grading()
         QuesDoc=obj.getQuestion(collectionName)
         SolDoc=obj.getSolution(collectionName)
-        AnsDoc=obj.getAnswers(dbname,collectionName)
+        # AnsDoc=obj.getAnswers(dbname,collectionName)
         MarksDoc=obj.getMarks(collectionName)
         count=0
         ResultDoc=[]
@@ -313,6 +329,7 @@ class Result:
                 }
             })
             count+=1
+            print(doc)
         
         
         return ResultDoc
@@ -356,17 +373,10 @@ class Result:
 
 @app.route('/')
 def main():
-    
     return redirect(url_for('login'))
 
 @app.route('/login')
 def login():
-    global Title
-    global AnsDoc
-    global stdColName
-    AnsDoc=""
-    stdColName=""
-    Title=""
     return render_template('login.html')
 
 @app.route('/login',methods=["GET","POST"])
@@ -379,8 +389,12 @@ def loginPost():
     if result==True:
         role=objDB.getRole(username)
         if role=="instructor":
+            global InstructorName
+            InstructorName=username.strip()
             return redirect(url_for('instructor_dashboard'))
         if role=="student":
+            global StudentName
+            StudentName=username.strip()
             return redirect(url_for('student_dashboard'))
         
     else:
@@ -434,9 +448,10 @@ def student_dashboards():
 
 @app.route('/student-results')
 def student_results():
-    global User
+    global StudentName
     obj=Database()
-    mylist=obj.getStudentCollections(User)
+    names,titles=obj.getCollectionsandTitles(StudentName)
+    mylist=zip(names,titles)
     return render_template('student-results.html',listi=mylist)
 
 @app.route('/student-results',methods=["GET","POST"])
@@ -444,7 +459,26 @@ def student_result():
     global stdColName
     collec=request.form["open"]
     stdColName=collec.strip()
-    return redirect(url_for('result'))
+    return redirect(url_for('resultSTD'))
+
+@app.route('/Student-Result')
+def resultSTD():
+    obj=Result()
+    global stdColName
+    print(stdColName)
+    global StudentName
+    print(StudentName)
+    result=obj.DisplayResult(StudentName,stdColName.strip())
+    marks=0.0
+    total=0
+    for doc in result:
+        print(doc['Obtained_Marks'])
+        marks+=int(doc['Obtained_Marks'])
+        total+=int(doc['Total_Marks'])
+    
+    percentage=(marks/total)*100
+
+    return render_template('resultSTD.html',documents=result,marks=marks,total=total,percentage=percentage)
 
 
 @app.route('/result')
@@ -452,12 +486,13 @@ def result():
     obj=Result()
     global stdColName
     print(stdColName)
-    global User
-    print(User)
-    result=obj.DisplayResult(User,stdColName.strip())
+    global StudentName
+    print(StudentName)
+    result=obj.DisplayResult(StudentName,stdColName.strip())
     marks=0.0
     total=0
     for doc in result:
+        print(doc['Obtained_Marks'])
         marks+=int(doc['Obtained_Marks'])
         total+=int(doc['Total_Marks'])
     
@@ -468,10 +503,10 @@ def result():
 @app.route('/student-exams')
 def student_exams():
     obj=Database()
-    global User
+    global StudentName
 
-    newList=obj.StudentNewExam(User)
-    print(str(newList))
+    names,titles=obj.StudentNewExam(StudentName)
+    newList=zip(names,titles)
     return render_template('student-exams.html',listi=newList)
 
 @app.route('/student-exams',methods=["GET","POST"])
@@ -481,9 +516,8 @@ def student_exam():
     print(name)
     stdColName=name.strip()
     obj=Database()
-    global User
-    User='Student'
-    print(str(obj.AttemptExam(User,stdColName)))
+    global StudentName
+    print(str(obj.AttemptExam(StudentName,stdColName)))
     return redirect(url_for('quiz'))
 
 @app.route('/instructor')
@@ -500,12 +534,16 @@ def instruct():
     Solution=request.form["solution"]
     Total_Marks=request.form["marks"]
     global ExamDoc
+    global InstructorName
     btnRequest=request.form["button"]
     if btnRequest=="save":
+        
         ExamDoc.append(Exam(Question,Solution,Total_Marks))
         print(len(ExamDoc))
         for doc in ExamDoc:
-            dbObj.createExam(doc.Question,doc.Solution,doc.Total_Marks,Title)
+            dbObj.createExam(InstructorName,doc.Question,doc.Solution,doc.Total_Marks,Title)
+        ExamDoc.clear()
+        Title=""
         return redirect(url_for('instructor_dashboard'))
     else:
         ExamDoc.append(Exam(Question,Solution,Total_Marks))
@@ -539,16 +577,14 @@ def quiz():
     
     return render_template('quiz.html',ques=questions[count],num=str(count+1),marks=marks[count],total=str(len(AnsDoc)))
 
-@app.route('/teacher-exams')
-def teacher_exams():
-    return render_template('teacher-exams.html')
+
 
 @app.route('/quiz',methods=["GET","POST"])
 def funct():
     global count
     global AnsDoc
     global stdColName
-    global User
+    global StudentName
     global Title
     objGrading=Grading()
     solutions=objGrading.getSolution(stdColName)
@@ -562,14 +598,14 @@ def funct():
     if btnPress=="next":
         # doc=AnsDoc[count]
         
-        objResult=Result()
+        # objResult=Result()
         objGrade=Grading()
-        # objResult.getGrade(User,stdColName,Answer)
+        # objResult.getGrade(StudentName,stdColName,Answer)
         result=objGrade.Grade(solutions[count],Answer)
-        obj.AddAnswer(User,stdColName,questions[count],Answer,marks[count],Title,result)
+        obj.AddAnswer(StudentName,stdColName,questions[count],Answer,marks[count],Title,result)
         print(result)
         if count==(len(questions)-1):
-            return redirect(url_for('result'))
+            return redirect(url_for('resultSTD'))
         else:
             count=count+1
             return redirect(url_for('quiz'))
@@ -577,11 +613,11 @@ def funct():
         objResult=Result()
         objGrade=Grading()
         
-        # objResult.getGrade(User,stdColName,Answer)
+        objResult.getGrade(StudentName,stdColName,Answer)
         result=objGrade.Grade(solutions[count],Answer)
-        obj.AddAnswer(User,stdColName,questions[count],Answer,marks[count],Title,result)
+        obj.AddAnswer(StudentName,stdColName,questions[count],Answer,marks[count],Title,result)
         print(result)
-        return redirect(url_for('result'))
+        return redirect(url_for('resultSTD'))
 
 
 
@@ -591,23 +627,19 @@ def funct():
     # print(Answer)
     # return "<h1>Successfully Added</h1>"
 
-@app.route('/add_marks')
-def add_mark():
-    return render_template('add-marks.html')
+# @app.route('/add_marks')
+# def add_mark():
+#     return render_template('add-marks.html')
 
-@app.route('/add_marks',methods=["GET","POST"])
-def get_marks():
-    global Total_Marks
-    Total_Marks=request.form["marks"]
-    print(Total_Marks)
-    global Question
-    return redirect(url_for('quizfunc'))
+# @app.route('/add_marks',methods=["GET","POST"])
+# def get_marks():
+#     global Total_Marks
+#     Total_Marks=request.form["marks"]
+#     print(Total_Marks)
+#     global Question
+#     return redirect(url_for('quizfunc'))
 
-@app.route('/instructor-exams')
-def instructor_exams():
-    obj=Database()
-    name=obj.getCollectionNames()
-    return render_template('instructor-exams.html',listi=name)
+
 
 @app.route('/instructor-results')
 def instructor_results():
@@ -616,17 +648,21 @@ def instructor_results():
 @app.route('/instructor-results', methods=["GET","POST"])
 def instructor_result():
     btn=request.form["open"]
+    global StudentName
     if btn=="Student":
+        StudentName=btn.strip()
         return redirect(url_for('alls'))
 
     if btn=="Learner":
+        StudentName=btn.strip()
         return redirect(url_for('alls'))
 
 @app.route('/instructor-allresults')
 def alls():
     obj=Database()
-    mylist=obj.getStudentCollections('Student')
-    return render_template('instructor-allresults.html',lists=mylist)
+    names,titles=obj.getCollectionsandTitles(StudentName)
+    mylist=zip(names,titles)
+    return render_template('instructor-allresults.html',mylist=mylist)
 
 @app.route('/instructor-allresults', methods=["GET","POST"])
 def allss():
@@ -636,8 +672,12 @@ def allss():
     return redirect(url_for('result'))
 
 
-
-
+@app.route('/instructor-exams')
+def instructor_exams():
+    obj=Database()
+    names,titles=obj.getCollectionNames()
+    mylist=zip(names,titles)
+    return render_template('instructor-exams.html',listi=mylist)
 
 @app.route('/instructor-exams',methods=["GET","POST"])
 def examsfunc():

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for, request
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 app=Flask("__main__")
@@ -35,8 +35,14 @@ def main():
     sim=solution.similarity(answer)
     result=sim*marks
     print("%.2f" % result)
+    return redirect(url_for('about', value="Hello"))
 
-    return str(result)
+@app.route('/about')
+def about():
+    toPrint=request.args.get('value')
+    print(toPrint)
+
+    return str(toPrint)
 
     
 
