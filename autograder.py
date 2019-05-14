@@ -1,11 +1,13 @@
 from flask import Flask,render_template,request,redirect, url_for
 import spacy
+import en_core_web_sm
 from spacy.lang.en.stop_words import STOP_WORDS
 from pymongo import MongoClient
 
 app=Flask("__main__")
 app.debug=True
-nlp = spacy.load('en_core_web_sm')
+# nlp = spacy.load('en_core_web_sm')
+nlp=en_core_web_sm.load()
 client=MongoClient('mongodb://localhost:27017')
 
 Total_Marks=""
