@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Learning</title>
+  <title>AutoGrader</title>
 
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
@@ -170,7 +170,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
           <div class="row" data-toggle="isotope">
             
             
-            
+            {% for std in Student %}
             <div class="item col-xs-12 col-sm-6 col-lg-4">
               <div class="panel panel-default paper-shadow" data-z="0.5">
 
@@ -191,51 +191,21 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                 </div>
 
                 <div class="panel-body">
-                  <h4 class="text-headline margin-v-0-10">Student</h4>
+                  <h4 class="text-headline margin-v-0-10">{{ std }} </h4>
 
                 </div>
                 <hr class="margin-none" />
                 <div class="panel-body">
 
-                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="Student"><i class="fas fa-eye"></i> View Result</button>
+                  <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="{{ std }} "><i class="fas fa-eye"></i> View Result</button>
 
                 </div>
 
               </div>
             </div>
+            {% endfor %}
 
-            <div class="item col-xs-12 col-sm-6 col-lg-4">
-                <div class="panel panel-default paper-shadow" data-z="0.5">
-  
-                  <div class="cover overlay cover-image-full hover">
-                    <span class="img icon-block height-150 bg-primary"></span>
-                    <a class="padding-none overlay overlay-full icon-block bg-primary">
-                      <span class="v-center">
-                        <i class="fas fa-laptop-code"></i>
-              </span>
-                    </a>
-  
-                    <a class="overlay overlay-full overlay-hover overlay-bg-white">
-                      <span class="v-center">
-                  <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
-                      </span>
-                    </a>
-  
-                  </div>
-  
-                  <div class="panel-body">
-                    <h4 class="text-headline margin-v-0-10">Learner</h4>
-  
-                  </div>
-                  <hr class="margin-none" />
-                  <div class="panel-body">
-  
-                    <button class="btn btn-white btn-flat paper-shadow relative" data-z="0" data-hover-z="1" data-animated  type="submit" name="open" value="Learner"><i class="fas fa-eye"></i> View Result</button>
-  
-                  </div>
-  
-                </div>
-              </div>
+          
             
             <!-- <div class="item col-xs-12 col-sm-6 col-lg-4">
               <div class="panel panel-default paper-shadow" data-z="0.5">

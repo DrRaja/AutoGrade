@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Learning</title>
+  <title>AutoGrader</title>
 
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
@@ -106,7 +106,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
         <ul class="nav navbar-nav navbar-nav-margin-left">
           
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" class="active">Student <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" class="active">{{ name }} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li class="active"><a href="{{ url_for('student_dashboard') }} ">Dashboard</a></li>
                   <!-- <li><a href="website-student-courses.html">My Courses</a></li> -->
@@ -124,7 +124,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="{{url_for('static',filename='autograder.jpg')}} " alt="" class="img-circle" />Student<span class="caret"></span>
+                  <img src="{{url_for('static',filename='autograder.jpg')}} " alt="" class="img-circle" />{{ name }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{url_for('student_dashboard')}} "><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
@@ -152,7 +152,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
           </a>
         </div>
         <div class="media-body">
-          <h1 class="text-white text-display-1 margin-v-0">Student</h1>
+          <h1 class="text-white text-display-1 margin-v-0">{{ name }} </h1>
           <!-- <p class="text-subhead"><a class="link-white text-underline" href="website-instructor-public-profile.html">View public profile</a></p> -->
         </div>
         <div class="media-right">
@@ -295,39 +295,6 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                   <div class="media media-clearfix-xs">
                     <div class="media-left">
                       <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                        <span class="img icon-block s90 bg-default"></span>
-                        <span class="overlay overlay-full padding-none icon-block s90 bg-brown">
-                        <span class="v-center">
-                          <i class="fas fa-chalkboard-teacher"></i>
-                        </span>
-                        </span>
-                        <a  class="overlay overlay-full overlay-hover overlay-bg-white">
-                          <span class="v-center">
-                            <span class="btn btn-circle btn-white btn-lg"><i class="fas fa-chalkboard-teacher"></i></span>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="media-body">
-                      <h4 class="media-heading margin-v-5-3"><a >Dr. Raja M Suleman</a></h4>
-                      <p class="small margin-none">
-                        <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star text-yellow-800"></span>
-                        <span class="fa fa-fw fa-star text-yellow-800"></span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated>
-                <div class="panel-body">
-                  <div class="media media-clearfix-xs">
-                    <div class="media-left">
-                      <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
                         <span class="img icon-block s90 bg-primary"></span>
                         <span class="overlay overlay-full padding-none icon-block s90 bg-primary">
                         <span class="v-center">
@@ -361,13 +328,47 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                   <div class="media media-clearfix-xs">
                     <div class="media-left">
                       <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
+                        <span class="img icon-block s90 bg-default"></span>
+                        <span class="overlay overlay-full padding-none icon-block s90 bg-brown">
+                        <span class="v-center">
+                          <i class="fas fa-chalkboard-teacher"></i>
+                        </span>
+                        </span>
+                        <a  class="overlay overlay-full overlay-hover overlay-bg-white">
+                          <span class="v-center">
+                            <span class="btn btn-circle btn-white btn-lg"><i class="fas fa-chalkboard-teacher"></i></span>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="media-body">
+                      <h4 class="media-heading margin-v-5-3"><a >Raja M. Suleman</a></h4>
+                      <p class="small margin-none">
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                        <span class="fa fa-fw fa-star text-yellow-800"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated>
+                <div class="panel-body">
+                  <div class="media media-clearfix-xs">
+                    <div class="media-left">
+                      <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
                         <span class="img icon-block s90 bg-lightred"></span>
                         <span class="overlay overlay-full padding-none icon-block s90 bg-lightred">
                         <span class="v-center">
                           <i class="fa fa-graduation-cap"></i>
                         </span>
                         </span>
-                        <a  class="overlay overlay-full overlay-hover overlay-bg-white">
+                        <a class="overlay overlay-full overlay-hover overlay-bg-white">
                           <span class="v-center">
                             <span class="btn btn-circle btn-red-500 btn-lg"><i class="fa fa-graduation-cap"></i></span>
                           </span>
@@ -375,7 +376,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
                       </div>
                     </div>
                     <div class="media-body">
-                      <img src="{{url_for('static',filename='izza.jpg')}} " alt="" class="img-circle" /><h4 class="media-heading margin-v-5-3"><a >Syyeda Izza Naqvi</a></h4>
+                      <h4 class="media-heading margin-v-5-3"><a >Syyeda Izza Naqvi</a></h4>
                       <p class="small margin-none">
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
                         <span class="fa fa-fw fa-star text-yellow-800"></span>
@@ -402,7 +403,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
 
   <!-- Footer -->
   <footer class="footer">
-    <strong>AutoGrader</strong>An Automated Answer Grading System &copy; Copyright 2019
+    <strong>AutoGrader</strong> An Automated Answer Grading System &copy; Copyright 2019
   </footer>
   <!-- // Footer -->
 {% endblock %}

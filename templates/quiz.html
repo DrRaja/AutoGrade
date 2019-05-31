@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Learning</title>
+  <title>AutoGrader</title>
 
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
@@ -128,7 +128,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             </ul>
           </li> -->
           <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" class="active">Student <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" class="active">{{ name }} <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li class="active"><a href="{{ url_for('student_dashboard') }} ">Dashboard</a></li>
                 <!-- <li><a href="website-student-courses.html">My Courses</a></li> -->
@@ -158,7 +158,7 @@ WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!-- user -->
             <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="{{url_for('static',filename='autograder.jpg')}} " alt="" class="img-circle" />Student<span class="caret"></span>
+                  <img src="{{url_for('static',filename='autograder.jpg')}} " alt="" class="img-circle" />{{ name }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{{url_for('student_dashboard')}} "><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>

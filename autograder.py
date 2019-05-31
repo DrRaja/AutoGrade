@@ -229,6 +229,17 @@ class Database:
                 role=doc['role']
         
         return role
+    
+    def getStudents(self):
+        infoDB=client.Info
+        collections=infoDB.login
+        documents=collections.find()
+        Students=[]
+        for doc in documents:
+            if doc['role']=='student':
+                Students.append(doc['username'])
+        
+        return Students
 
 
 class Grading:
@@ -438,7 +449,8 @@ def instructor_dashboards():
 
 @app.route('/student-dashboard')
 def student_dashboard():
-    return render_template('student-dashboard.html')
+    global StudentName
+    return render_template('student-dashboard.html',name=StudentName)
 
 @app.route('/student-dashboard',methods=["GET","POST"])
 def student_dashboards():
@@ -454,7 +466,7 @@ def student_results():
     obj=Database()
     names,titles=obj.getCollectionsandTitles(StudentName)
     mylist=zip(names,titles)
-    return render_template('student-results.html',listi=mylist)
+    return render_template('student-results.html',name=StudentName,listi=mylist)
 
 @app.route('/student-results',methods=["GET","POST"])
 def student_result():
@@ -509,7 +521,7 @@ def student_exams():
 
     names,titles=obj.StudentNewExam(StudentName)
     newList=zip(names,titles)
-    return render_template('student-exams.html',listi=newList)
+    return render_template('student-exams.html',name=StudentName ,listi=newList)
 
 @app.route('/student-exams',methods=["GET","POST"])
 def student_exam():
@@ -570,6 +582,7 @@ def quiz():
     global count
     global AnsDoc
     global stdColName
+    global StudentName
     # print(len(AnsDoc))
     # doc=AnsDoc[count]
     obj=Grading()
@@ -577,7 +590,7 @@ def quiz():
     
     marks=obj.getMarks(stdColName)
     
-    return render_template('quiz.html',ques=questions[count],num=str(count+1),marks=marks[count],total=str(len(AnsDoc)))
+    return render_template('quiz.html',name=StudentName ,ques=questions[count],num=str(count+1),marks=marks[count],total=str(len(AnsDoc)))
 
 
 
@@ -607,6 +620,7 @@ def funct():
         obj.AddAnswer(StudentName,stdColName,questions[count],Answer,marks[count],Title,result)
         print(result)
         if count==(len(questions)-1):
+            AnsDoc.clear()
             return redirect(url_for('resultSTD'))
         else:
             count=count+1
@@ -645,19 +659,18 @@ def funct():
 
 @app.route('/instructor-results')
 def instructor_results():
-    return render_template('instructor-results.html')
+    objDB=Database()
+    Students=objDB.getStudents()
+    for std in Students:
+        print(std)
+    return render_template('instructor-results.html',Student=Students)
 
 @app.route('/instructor-results', methods=["GET","POST"])
 def instructor_result():
     btn=request.form["open"]
     global StudentName
-    if btn=="Student":
-        StudentName=btn.strip()
-        return redirect(url_for('alls'))
-
-    if btn=="Learner":
-        StudentName=btn.strip()
-        return redirect(url_for('alls'))
+    StudentName=btn.strip()
+    return redirect(url_for('alls'))
 
 @app.route('/instructor-allresults')
 def alls():
